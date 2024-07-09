@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "trips")
 @Getter
 @Setter
 @NoArgsConstructor

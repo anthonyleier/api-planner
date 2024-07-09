@@ -1,8 +1,8 @@
-CREATE TABLE participants (
+CREATE TABLE participant (
     id UUID DEFAULT RANDOM_UUID() PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     is_confirmed BOOLEAN NOT NULL,
     trip_id UUID,
-    FOREIGN KEY (trip_id) REFERENCES trips(id)
+    FOREIGN KEY (trip_id) REFERENCES trip(id)
 );
