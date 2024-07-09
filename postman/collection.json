@@ -35,12 +35,21 @@
 			"response": []
 		},
 		{
-			"name": "Consultar viagem",
+			"name": "Atualizar viagem",
 			"request": {
-				"method": "GET",
+				"method": "PUT",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"destination\": \"Chapecó/SC\",\r\n    \"starts_at\": \"2025-01-01T08:00:00.000Z\",\r\n    \"ends_at\": \"2025-01-05T20:30:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:8080/trips/c1124ddd-8630-409d-b39b-fe33190e8287",
+					"raw": "http://localhost:8080/trips/51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -48,7 +57,48 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"c1124ddd-8630-409d-b39b-fe33190e8287"
+						"51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirmar viagem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trips/51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1/confirm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar viagem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trips/51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1"
 					]
 				}
 			},
