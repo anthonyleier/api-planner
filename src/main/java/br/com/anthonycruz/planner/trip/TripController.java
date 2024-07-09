@@ -56,6 +56,8 @@ public class TripController {
             rawTrip.setConfirmed(true);
 
             this.repository.save(rawTrip);
+            this.participantService.triggerConfirmationEmailToParticipants(rawTrip.getId());
+
             return ResponseEntity.ok(rawTrip);
         }
         return ResponseEntity.notFound().build();
