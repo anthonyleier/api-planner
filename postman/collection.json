@@ -1,0 +1,58 @@
+{
+	"info": {
+		"_postman_id": "554ccb28-0f03-4bff-945a-4a19f8ee08e0",
+		"name": "api-planner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24415316"
+	},
+	"item": [
+		{
+			"name": "Criar nova viagem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"destination\": \"Florianópilis/SC\",\r\n    \"starts_at\": \"2025-01-01T08:00:00.000Z\",\r\n    \"ends_at\": \"2025-01-05T20:30:00.000Z\",\r\n    \"emails_to_invite\": [\r\n        \"anthony.cruz@alfatransportes.com.br\",\r\n        \"luiz.kraus@alfatransportes.com.br\"\r\n    ],\r\n    \"owner_name\": \"Anthony Cruz\",\r\n    \"owner_email\": \"anthonyleierlw@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trips",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar viagem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trips/c1124ddd-8630-409d-b39b-fe33190e8287",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"c1124ddd-8630-409d-b39b-fe33190e8287"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
