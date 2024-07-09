@@ -1,15 +1,12 @@
 package br.com.anthonycruz.planner.trip;
 
-import br.com.anthonycruz.planner.participant.ParticipantCreateResponse;
-import br.com.anthonycruz.planner.participant.ParticipantRequestPayload;
-import br.com.anthonycruz.planner.participant.ParticipantService;
+import br.com.anthonycruz.planner.participant.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -79,5 +76,11 @@ public class TripController {
             return ResponseEntity.ok(participantResponse);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/participants")
+    public ResponseEntity<List<ParticipantDTO>> getAllParticipants(@PathVariable UUID id) {
+        List<ParticipantDTO> participants = this.participantService.getAllParticipantsFromTrip(id);
+        return ResponseEntity.ok(participants);
     }
 }

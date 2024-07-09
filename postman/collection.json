@@ -49,7 +49,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1",
+					"raw": "http://localhost:8080/trips/e908bb47-9709-4945-829d-f239fc452691",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -57,7 +57,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1"
+						"e908bb47-9709-4945-829d-f239fc452691"
 					]
 				}
 			},
@@ -69,7 +69,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1/confirm",
+					"raw": "http://localhost:8080/trips/e908bb47-9709-4945-829d-f239fc452691/confirm",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -77,8 +77,68 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1",
+						"e908bb47-9709-4945-829d-f239fc452691",
 						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirmar participante",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Wendel Mariano\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/participants/2b69a766-1948-4a80-bacf-1ed611e9fd33/confirm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"participants",
+						"2b69a766-1948-4a80-bacf-1ed611e9fd33",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Convidar participante",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"wendel.mariano@alfatransportes.com.br\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trips/22484b51-fba5-4787-bd61-0bf7058b5a4d/invite",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"22484b51-fba5-4787-bd61-0bf7058b5a4d",
+						"invite"
 					]
 				}
 			},
@@ -90,7 +150,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1",
+					"raw": "http://localhost:8080/trips/22484b51-fba5-4787-bd61-0bf7058b5a4d",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -98,7 +158,28 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"51b1c12d-4409-4cbd-8ff9-0a2ed1679cd1"
+						"22484b51-fba5-4787-bd61-0bf7058b5a4d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar participantes da viagem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trips/0f161493-9882-4909-bb93-91274185be37/participants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"0f161493-9882-4909-bb93-91274185be37",
+						"participants"
 					]
 				}
 			},
