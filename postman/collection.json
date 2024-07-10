@@ -35,6 +35,108 @@
 			"response": []
 		},
 		{
+			"name": "Registar atividade na viagem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Visitar praia de canasvieiras\",\r\n    \"occurs_at\": \"2025-01-03T08:00:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trips/9143c134-07b9-4906-a517-196a79c3507e/activities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"9143c134-07b9-4906-a517-196a79c3507e",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar link na viagem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Alugar casa\",\r\n    \"url\": \"https://booking.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trips/a6cdcff3-da67-4054-b241-0f289118f762/links",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"a6cdcff3-da67-4054-b241-0f289118f762",
+						"links"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar atividades da viagem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trips/9143c134-07b9-4906-a517-196a79c3507e/activities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"9143c134-07b9-4906-a517-196a79c3507e",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar links da viagem",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trips/a6cdcff3-da67-4054-b241-0f289118f762/links",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trips",
+						"a6cdcff3-da67-4054-b241-0f289118f762",
+						"links"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Atualizar viagem",
 			"request": {
 				"method": "PUT",
