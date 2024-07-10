@@ -1,5 +1,6 @@
 package br.com.anthonycruz.planner.trip;
 
+import br.com.anthonycruz.planner.activity.ActivityDTO;
 import br.com.anthonycruz.planner.activity.ActivityRequestPayload;
 import br.com.anthonycruz.planner.activity.ActivityResponse;
 import br.com.anthonycruz.planner.activity.ActivityService;
@@ -101,5 +102,11 @@ public class TripController {
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/activities")
+    public ResponseEntity<List<ActivityDTO>> getAllActivities(@PathVariable UUID id) {
+        List<ActivityDTO> activities = this.activityService.getAllActivitiesFromTrip(id);
+        return ResponseEntity.ok(activities);
     }
 }
