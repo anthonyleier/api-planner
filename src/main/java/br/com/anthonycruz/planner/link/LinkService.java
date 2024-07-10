@@ -20,6 +20,5 @@ public class LinkService {
 
     public List<LinkDTO> getAllLinksFromTrip(UUID id) {
         return this.repository.findByTripId(id).stream().map(link -> new LinkDTO(link.getId(), link.getTitle(), link.getUrl())).toList();
-
     }
 }

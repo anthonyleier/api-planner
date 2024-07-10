@@ -26,7 +26,7 @@ public class Link {
     private String url;
 
     @ManyToOne
-    @JoinColumn(name="trip_id", nullable = false)
+    @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
     public Link(String title, String url, Trip trip) {

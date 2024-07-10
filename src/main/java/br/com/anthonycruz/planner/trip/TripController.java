@@ -8,7 +8,10 @@ import br.com.anthonycruz.planner.link.LinkDTO;
 import br.com.anthonycruz.planner.link.LinkRequestPayload;
 import br.com.anthonycruz.planner.link.LinkResponse;
 import br.com.anthonycruz.planner.link.LinkService;
-import br.com.anthonycruz.planner.participant.*;
+import br.com.anthonycruz.planner.participant.ParticipantCreateResponse;
+import br.com.anthonycruz.planner.participant.ParticipantDTO;
+import br.com.anthonycruz.planner.participant.ParticipantRequestPayload;
+import br.com.anthonycruz.planner.participant.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -105,7 +108,6 @@ public class TripController {
             Trip rawTrip = trip.get();
 
             ActivityResponse response = this.activityService.registerActivity(payload, rawTrip);
-
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.notFound().build();
@@ -124,7 +126,6 @@ public class TripController {
             Trip rawTrip = trip.get();
 
             LinkResponse response = this.linkService.registerLink(payload, rawTrip);
-
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.notFound().build();
