@@ -38,7 +38,7 @@ public class Trip {
     @Column(name = "owner_email", nullable = false)
     private String ownerEmail;
 
-    public Trip(TripRequestPayload data) {
+    public Trip(TripRequest data) {
         this.destination = data.destination();
         this.startsAt = LocalDateTime.parse(data.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
         this.endsAt = LocalDateTime.parse(data.ends_at(), DateTimeFormatter.ISO_DATE_TIME);

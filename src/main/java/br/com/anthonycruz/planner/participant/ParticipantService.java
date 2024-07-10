@@ -19,10 +19,10 @@ public class ParticipantService {
         System.out.println(participants.getFirst().getId());
     }
 
-    public ParticipantCreateResponse registerParticipantToTrip(String email, Trip trip) {
+    public ParticipantResponse registerParticipantToTrip(String email, Trip trip) {
         Participant newParticipant = new Participant(email, trip);
         this.repository.save(newParticipant);
-        return new ParticipantCreateResponse(newParticipant.getId());
+        return new ParticipantResponse(newParticipant.getId());
     }
 
     public void triggerConfirmationEmailToParticipants(UUID tripId) {
