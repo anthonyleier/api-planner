@@ -4,6 +4,7 @@ import br.com.anthonycruz.planner.activity.ActivityDTO;
 import br.com.anthonycruz.planner.activity.ActivityRequestPayload;
 import br.com.anthonycruz.planner.activity.ActivityResponse;
 import br.com.anthonycruz.planner.activity.ActivityService;
+import br.com.anthonycruz.planner.link.LinkDTO;
 import br.com.anthonycruz.planner.link.LinkRequestPayload;
 import br.com.anthonycruz.planner.link.LinkResponse;
 import br.com.anthonycruz.planner.link.LinkService;
@@ -127,5 +128,11 @@ public class TripController {
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/links")
+    public ResponseEntity<List<LinkDTO>> getAllLinks(@PathVariable UUID id) {
+        List<LinkDTO> links = this.linkService.getAllLinksFromTrip(id);
+        return ResponseEntity.ok(links);
     }
 }
