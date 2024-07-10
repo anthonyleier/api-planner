@@ -4,6 +4,9 @@ import br.com.anthonycruz.planner.activity.ActivityDTO;
 import br.com.anthonycruz.planner.activity.ActivityRequestPayload;
 import br.com.anthonycruz.planner.activity.ActivityResponse;
 import br.com.anthonycruz.planner.activity.ActivityService;
+import br.com.anthonycruz.planner.link.LinkRequestPayload;
+import br.com.anthonycruz.planner.link.LinkResponse;
+import br.com.anthonycruz.planner.link.LinkService;
 import br.com.anthonycruz.planner.participant.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,9 @@ public class TripController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private LinkService linkService;
 
     @Autowired
     private TripRepository repository;
@@ -108,5 +114,18 @@ public class TripController {
     public ResponseEntity<List<ActivityDTO>> getAllActivities(@PathVariable UUID id) {
         List<ActivityDTO> activities = this.activityService.getAllActivitiesFromTrip(id);
         return ResponseEntity.ok(activities);
+    }
+
+    @PostMapping("/{id}/links")
+    public ResponseEntity<LinkResponse> registerLink(@PathVariable UUID id, @RequestBody LinkRequestPayload payload) {
+        Optional<Trip> trip = this.repository.findById(id);
+        if (trip.isPresent()) {
+            Trip rawTrip = trip.get();
+
+            LinkResponse response = this.linkService.registerLink(payload, rawTrip);
+
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

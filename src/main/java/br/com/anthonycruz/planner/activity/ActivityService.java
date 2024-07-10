@@ -1,6 +1,5 @@
 package br.com.anthonycruz.planner.activity;
 
-import br.com.anthonycruz.planner.participant.ParticipantDTO;
 import br.com.anthonycruz.planner.trip.Trip;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
