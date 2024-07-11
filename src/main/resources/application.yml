@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: planner
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/planner
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
