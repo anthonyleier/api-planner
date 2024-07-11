@@ -12,6 +12,7 @@ import br.com.anthonycruz.planner.participant.ParticipantResponse;
 import br.com.anthonycruz.planner.participant.ParticipantDTO;
 import br.com.anthonycruz.planner.participant.ParticipantRequest;
 import br.com.anthonycruz.planner.participant.ParticipantService;
+import br.com.anthonycruz.planner.exceptions.StartDateAfterEndDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,7 @@ public class TripController {
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest request) {
         Trip newTrip = new Trip(request);
+        if (newTrip.getStartsAt().isAfter(newTrip.getEndsAt())) throw new StartDateAfterEndDate("StartsAt must be before EndsAt");
         this.repository.save(newTrip);
         this.participantService.registerParticipantsToTrip(request.emails_to_invite(), newTrip);
         return ResponseEntity.ok(new TripResponse(newTrip.getId()));
