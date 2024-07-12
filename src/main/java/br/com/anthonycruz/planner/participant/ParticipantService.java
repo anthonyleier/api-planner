@@ -16,17 +16,15 @@ public class ParticipantService {
     public void registerParticipantsToTrip(List<String> participantsToInvite, Trip trip) {
         List<Participant> participants = participantsToInvite.stream().map(email -> new Participant(email, trip)).toList();
         this.repository.saveAll(participants);
-        System.out.println(participants.getFirst().getId());
     }
 
     public ParticipantResponse registerParticipantToTrip(String email, Trip trip) {
         Participant newParticipant = new Participant(email, trip);
-        this.repository.save(newParticipant);
-        return new ParticipantResponse(newParticipant.getId());
+        Participant savedParticipant = this.repository.save(newParticipant);
+        return new ParticipantResponse(savedParticipant.getId());
     }
 
     public void triggerConfirmationEmailToParticipants(UUID tripId) {
-
     }
 
     public void triggerConfirmationEmailToParticipant(String email) {
