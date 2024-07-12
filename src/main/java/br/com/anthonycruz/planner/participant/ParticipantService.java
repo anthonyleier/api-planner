@@ -13,9 +13,9 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository repository;
 
-    public void registerParticipantsToTrip(List<String> participantsToInvite, Trip trip) {
+    public List<Participant> registerParticipantsToTrip(List<String> participantsToInvite, Trip trip) {
         List<Participant> participants = participantsToInvite.stream().map(email -> new Participant(email, trip)).toList();
-        this.repository.saveAll(participants);
+        return this.repository.saveAll(participants);
     }
 
     public ParticipantResponse registerParticipantToTrip(String email, Trip trip) {
