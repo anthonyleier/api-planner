@@ -4,6 +4,7 @@ import br.com.anthonycruz.planner.mocks.MockParticipant;
 import br.com.anthonycruz.planner.mocks.MockTrip;
 import br.com.anthonycruz.planner.participant.*;
 import br.com.anthonycruz.planner.trip.Trip;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ParticipantServiceTest {
+    private static final List<String> emails = new ArrayList<>();
+
     @Mock
     private ParticipantRepository repository;
 
@@ -29,16 +32,18 @@ public class ParticipantServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    public void testRegisterParticipantsToTrip() {
-        UUID testTripId = UUID.fromString("33f609fc-004b-4fc2-a635-71d2eae72060");
-
-        List<String> emails = new ArrayList<>();
+    @BeforeAll
+    public static void setUpClass() {
         emails.add("carolina.mendes@gmail.com");
         emails.add("thiago.almeida92@gmail.com");
         emails.add("julia.pereira88@gmail.com");
         emails.add("felipe.fernandes@gmail.com");
         emails.add("mariana.souza10@gmail.com");
+    }
+
+    @Test
+    public void testRegisterParticipantsToTrip() {
+        UUID testTripId = UUID.fromString("33f609fc-004b-4fc2-a635-71d2eae72060");
 
         List<Participant> participants = MockParticipant.mockEntitiesWithEmails(emails);
         when(repository.saveAll(anyList())).thenReturn(participants);
@@ -78,6 +83,13 @@ public class ParticipantServiceTest {
 
     @Test
     public void testGetAllParticipantsFromTrip() {
+        UUID testTripId = UUID.fromString("33f609fc-004b-4fc2-a635-71d2eae72060");
 
+        when(repository.findByTripId(any(UUID.class))).thenReturn(MockParticipant.mockEntitiesWithEmails(emails));
+        var participants = service.getAllParticipantsFromTrip(testTripId);
+
+        assertNotNull(participants);
+        assertEquals(participants.size(), 5);
+        assertEquals(participants.getFirst().email(), "carolina.mendes@gmail.com");
     }
 }

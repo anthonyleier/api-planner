@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Service
 public class ParticipantService {
-
     @Autowired
     private ParticipantRepository repository;
 
