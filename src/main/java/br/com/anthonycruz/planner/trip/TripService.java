@@ -19,19 +19,19 @@ public class TripService {
         return this.repository.save(trip);
     }
 
-    public void update(Trip trip, String destination, LocalDateTime startsAt, LocalDateTime endsAt) {
+    public Trip update(Trip trip, String destination, LocalDateTime startsAt, LocalDateTime endsAt) {
         trip.setDestination(destination);
         trip.setStartsAt(startsAt);
         trip.setEndsAt(endsAt);
-        this.repository.save(trip);
+        return this.repository.save(trip);
     }
 
     public Optional<Trip> findById(UUID id) {
         return this.repository.findById(id);
     }
 
-    public void confirm(Trip trip) {
+    public Trip confirm(Trip trip) {
         trip.setConfirmed(true);
-        this.repository.save(trip);
+        return this.repository.save(trip);
     }
 }

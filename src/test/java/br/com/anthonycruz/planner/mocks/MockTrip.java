@@ -22,16 +22,16 @@ public class MockTrip {
         return trip;
     }
 
-    public static TripRequest mockRequest() {
+    public static TripRequest mockRequest(String destination, String startsAt, String endsAt) {
         List<String> emails = new ArrayList<>();
         emails.add("john.doe@gmail.com");
         emails.add("jane.smith@gmail.com");
         emails.add("mike.jones@gmail.com");
 
         return new TripRequest(
-                "São Paulo/SP",
-                "2024-07-20T13:00",
-                "2024-07-25T20:00",
+                destination,
+                startsAt,
+                endsAt,
                 emails,
                 "anthonyleierlw@gmail.com",
                 "Anthony Cruz"

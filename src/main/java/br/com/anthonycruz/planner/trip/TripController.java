@@ -63,8 +63,8 @@ public class TripController {
             var startsAt = LocalDateTime.parse(request.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
             var endsAt = LocalDateTime.parse(request.ends_at(), DateTimeFormatter.ISO_DATE_TIME);
 
-            this.service.update(rawTrip, destination, startsAt, endsAt);
-            return ResponseEntity.ok(rawTrip);
+            Trip updatedTrip = this.service.update(rawTrip, destination, startsAt, endsAt);
+            return ResponseEntity.ok(updatedTrip);
         }
         return ResponseEntity.notFound().build();
     }
@@ -75,10 +75,10 @@ public class TripController {
         if (trip.isPresent()) {
             Trip rawTrip = trip.get();
 
-            this.service.confirm(rawTrip);
+            Trip updatedTrip = this.service.confirm(rawTrip);
             this.participantService.triggerConfirmationEmailToParticipants(rawTrip.getId());
 
-            return ResponseEntity.ok(rawTrip);
+            return ResponseEntity.ok(updatedTrip);
         }
         return ResponseEntity.notFound().build();
     }
