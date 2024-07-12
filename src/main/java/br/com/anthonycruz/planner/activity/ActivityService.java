@@ -15,7 +15,7 @@ public class ActivityService {
     @Autowired
     private ActivityRepository repository;
 
-    private boolean isDateInRange(LocalDateTime dateToCheck, LocalDateTime startDate, LocalDateTime endDate){
+    public boolean isDateInRange(LocalDateTime dateToCheck, LocalDateTime startDate, LocalDateTime endDate){
         return dateToCheck.isAfter(startDate) && dateToCheck.isBefore(endDate);
     }
 
