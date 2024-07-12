@@ -8,9 +8,9 @@ import br.com.anthonycruz.planner.link.LinkDTO;
 import br.com.anthonycruz.planner.link.LinkRequest;
 import br.com.anthonycruz.planner.link.LinkResponse;
 import br.com.anthonycruz.planner.link.LinkService;
-import br.com.anthonycruz.planner.participant.ParticipantResponse;
 import br.com.anthonycruz.planner.participant.ParticipantDTO;
 import br.com.anthonycruz.planner.participant.ParticipantRequest;
+import br.com.anthonycruz.planner.participant.ParticipantResponse;
 import br.com.anthonycruz.planner.participant.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,9 +38,6 @@ public class TripController {
     @Autowired
     private LinkService linkService;
 
-    @Autowired
-    private TripRepository repository;
-
     @PostMapping
     public ResponseEntity<TripResponse> create(@RequestBody TripRequest request) {
         Trip trip = this.service.create(request);
@@ -52,20 +49,21 @@ public class TripController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Trip> getTripDetails(@PathVariable UUID id) {
-        Optional<Trip> trip = this.repository.findById(id);
+        Optional<Trip> trip = this.service.findById(id);
         return trip.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Trip> updateTrip(@PathVariable UUID id, @RequestBody TripRequest request) {
-        Optional<Trip> trip = this.repository.findById(id);
+        Optional<Trip> trip = this.service.findById(id);
         if (trip.isPresent()) {
             Trip rawTrip = trip.get();
-            rawTrip.setDestination(request.destination());
-            rawTrip.setStartsAt(LocalDateTime.parse(request.starts_at(), DateTimeFormatter.ISO_DATE_TIME));
-            rawTrip.setEndsAt(LocalDateTime.parse(request.ends_at(), DateTimeFormatter.ISO_DATE_TIME));
 
-            this.repository.save(rawTrip);
+            var destination = request.destination();
+            var startsAt = LocalDateTime.parse(request.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
+            var endsAt = LocalDateTime.parse(request.ends_at(), DateTimeFormatter.ISO_DATE_TIME);
+
+            this.service.update(rawTrip, destination, startsAt, endsAt);
             return ResponseEntity.ok(rawTrip);
         }
         return ResponseEntity.notFound().build();
@@ -73,12 +71,11 @@ public class TripController {
 
     @GetMapping("/{id}/confirm")
     public ResponseEntity<Trip> confirmTrip(@PathVariable UUID id) {
-        Optional<Trip> trip = this.repository.findById(id);
+        Optional<Trip> trip = this.service.findById(id);
         if (trip.isPresent()) {
             Trip rawTrip = trip.get();
-            rawTrip.setConfirmed(true);
 
-            this.repository.save(rawTrip);
+            this.service.confirm(rawTrip);
             this.participantService.triggerConfirmationEmailToParticipants(rawTrip.getId());
 
             return ResponseEntity.ok(rawTrip);
@@ -88,7 +85,7 @@ public class TripController {
 
     @PostMapping("/{id}/invite")
     public ResponseEntity<ParticipantResponse> inviteParticipant(@PathVariable UUID id, @RequestBody ParticipantRequest request) {
-        Optional<Trip> trip = this.repository.findById(id);
+        Optional<Trip> trip = this.service.findById(id);
         if (trip.isPresent()) {
             Trip rawTrip = trip.get();
 
@@ -108,7 +105,7 @@ public class TripController {
 
     @PostMapping("/{id}/activities")
     public ResponseEntity<ActivityResponse> registerActivity(@PathVariable UUID id, @RequestBody ActivityRequest request) {
-        Optional<Trip> trip = this.repository.findById(id);
+        Optional<Trip> trip = this.service.findById(id);
         if (trip.isPresent()) {
             Trip rawTrip = trip.get();
 
@@ -126,7 +123,7 @@ public class TripController {
 
     @PostMapping("/{id}/links")
     public ResponseEntity<LinkResponse> registerLink(@PathVariable UUID id, @RequestBody LinkRequest request) {
-        Optional<Trip> trip = this.repository.findById(id);
+        Optional<Trip> trip = this.service.findById(id);
         if (trip.isPresent()) {
             Trip rawTrip = trip.get();
 
