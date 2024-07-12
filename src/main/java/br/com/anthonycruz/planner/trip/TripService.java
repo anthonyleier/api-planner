@@ -16,8 +16,7 @@ public class TripService {
     public Trip create(TripRequest request) {
         Trip trip = new Trip(request);
         if (trip.getStartsAt().isAfter(trip.getEndsAt())) throw new StartDateAfterEndDate();
-        this.repository.save(trip);
-        return trip;
+        return this.repository.save(trip);
     }
 
     public void update(Trip trip, String destination, LocalDateTime startsAt, LocalDateTime endsAt) {
