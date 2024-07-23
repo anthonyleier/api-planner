@@ -29,6 +29,7 @@
     <properties>
         <java.version>21</java.version>
         <testcontainers.version>1.19.8</testcontainers.version>
+        <restassured.version>5.5.0</restassured.version>
     </properties>
     <dependencies>
         <dependency>
@@ -77,6 +78,12 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
             <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restassured.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
