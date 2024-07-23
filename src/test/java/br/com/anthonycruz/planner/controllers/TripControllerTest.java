@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
+
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +29,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 import br.com.anthonycruz.planner.trip.TripRequest;
+import br.com.anthonycruz.planner.trip.TripResponse;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(OrderAnnotation.class)
@@ -84,10 +87,10 @@ public class TripControllerTest {
                 .when()
                 .post();
 
+        TripResponse tripResponse = response.as(TripResponse.class);
         assertEquals(201, response.statusCode());
+        assertNotNull(tripResponse.id());
     }
-
-    // create
 
     // getTripDetails
 
