@@ -1,6 +1,5 @@
 package br.com.anthonycruz.planner.services;
 
-
 import br.com.anthonycruz.planner.exceptions.StartDateAfterEndDate;
 import br.com.anthonycruz.planner.mocks.MockTrip;
 import br.com.anthonycruz.planner.trip.Trip;

@@ -70,7 +70,8 @@ public class ActivityServiceTest {
         when(repository.save(any(Activity.class))).thenReturn(activity);
 
         ActivityRequest request = MockActivity.mockRequest("2000-01-01T13:00");
-        Exception exception = assertThrows(ActivityDateNotInTripRange.class, () -> service.registerActivity(request, trip));
+        Exception exception = assertThrows(ActivityDateNotInTripRange.class,
+                () -> service.registerActivity(request, trip));
         assertTrue(exception.getMessage().contains("Activity date must be between trip date range"));
     }
 
