@@ -42,6 +42,7 @@ import io.restassured.specification.RequestSpecification;
 @TestMethodOrder(OrderAnnotation.class)
 public class TripControllerTest {
     private static UUID tripID;
+    private static UUID participantID;
     private static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
 
     @BeforeAll
@@ -193,6 +194,7 @@ public class TripControllerTest {
                 .when()
                 .post();
         ParticipantDTO participantDTO = response.as(ParticipantDTO.class);
+        participantID = participantDTO.id();
 
         assertEquals(200, response.statusCode());
         assertNotNull(participantDTO.id());
@@ -302,5 +304,26 @@ public class TripControllerTest {
         assertNotNull(linkDTO.id());
         assertEquals("Booking", linkDTO.title());
         assertEquals("https://booking.com", linkDTO.url());
+    }
+
+    @Test
+    @Order(11)
+    public void testConfirmParticipant() {
+        ParticipantRequest request = new ParticipantRequest("José da Silva", "jose.silva123@gmail.com");
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/participants/" + participantID + "/confirm")
+                .body(request)
+                .contentType("application/json")
+                .when()
+                .post();
+        ParticipantDTO participantDTO = response.as(ParticipantDTO.class);
+
+        assertEquals(200, response.statusCode());
+        assertNotNull(participantDTO.id());
+        assertEquals("José da Silva", participantDTO.name());
+        assertEquals("jose.silva123@gmail.com", participantDTO.email());
+        assertTrue(participantDTO.isConfirmed());
     }
 }

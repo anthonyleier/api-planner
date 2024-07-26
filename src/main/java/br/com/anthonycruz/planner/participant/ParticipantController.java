@@ -15,17 +15,21 @@ public class ParticipantController {
     private ParticipantRepository repository;
 
     @PostMapping("/{id}/confirm")
-    public ResponseEntity<Participant> confirmParticipant(@PathVariable UUID id, @RequestBody ParticipantRequest request) {
-        Optional<Participant> participant = this.repository.findById(id);
-        if (participant.isPresent()) {
-            Participant rawParticipant = participant.get();
+    public ResponseEntity<ParticipantDTO> confirmParticipant(@PathVariable UUID id, @RequestBody ParticipantRequest request) {
+        Optional<Participant> optionalParticipant = this.repository.findById(id);
 
-            rawParticipant.setConfirmed(true);
-            rawParticipant.setName(request.name());
+        if (optionalParticipant.isPresent()) {
+            Participant participant = optionalParticipant.get();
 
-            this.repository.save(rawParticipant);
-            return ResponseEntity.ok(rawParticipant);
+            participant.setConfirmed(true);
+            participant.setName(request.name());
+
+            Participant savedParticipant = this.repository.save(participant);
+            ParticipantDTO participantDTO = new ParticipantDTO(savedParticipant.getId(), savedParticipant.getName(), savedParticipant.getEmail(), savedParticipant.isConfirmed());
+
+            return ResponseEntity.ok(participantDTO);
         }
+
         return ResponseEntity.notFound().build();
     }
 }
