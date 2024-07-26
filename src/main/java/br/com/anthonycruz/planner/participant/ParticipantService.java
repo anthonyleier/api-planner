@@ -17,10 +17,10 @@ public class ParticipantService {
         return this.repository.saveAll(participants);
     }
 
-    public ParticipantResponse registerParticipantToTrip(String email, Trip trip) {
+    public Participant registerParticipantToTrip(String email, Trip trip) {
         Participant newParticipant = new Participant(email, trip);
         Participant savedParticipant = this.repository.save(newParticipant);
-        return new ParticipantResponse(savedParticipant.getId());
+        return savedParticipant;
     }
 
     public void triggerConfirmationEmailToParticipants(UUID tripId) {

@@ -1,6 +1,9 @@
 package br.com.anthonycruz.planner.controllers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,8 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import br.com.anthonycruz.planner.participant.ParticipantDTO;
+import br.com.anthonycruz.planner.participant.ParticipantRequest;
 import br.com.anthonycruz.planner.trip.TripDTO;
 import br.com.anthonycruz.planner.trip.TripRequest;
 import io.restassured.RestAssured;
@@ -171,28 +176,27 @@ public class TripControllerTest {
         assertTrue(tripDTO.isConfirmed());
     }
 
-    // @Test
-    // @Order(5)
-    // public void testInviteParticipant() {
-    // String email = "jose.silva123@gmail.com";
-    // ParticipantRequest request = new ParticipantRequest("", email);
+    @Test
+    @Order(5)
+    public void testInviteParticipant() {
+        ParticipantRequest request = new ParticipantRequest("", "jose.silva123@gmail.com");
 
-    // Response response = RestAssured
-    // .given()
-    // .baseUri("http://localhost:8888")
-    // .basePath("/trips/" + tripID + "/invite")
-    // .body(request)
-    // .contentType("application/json")
-    // .when()
-    // .post();
-    // ParticipantDTO participantDTO = response.as(ParticipantDTO.class);
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/trips/" + tripID + "/invite")
+                .body(request)
+                .contentType("application/json")
+                .when()
+                .post();
+        ParticipantDTO participantDTO = response.as(ParticipantDTO.class);
 
-    // assertEquals(200, response.statusCode());
-    // assertNotNull(participantDTO.id());
-    // assertNull(participantDTO.name());
-    // assertEquals(email, participantDTO.email());
-    // assertFalse(participantDTO.isConfirmed());
-    // }
+        assertEquals(200, response.statusCode());
+        assertNotNull(participantDTO.id());
+        assertEquals("", participantDTO.name());
+        assertEquals("jose.silva123@gmail.com", participantDTO.email());
+        assertFalse(participantDTO.isConfirmed());
+    }
 
     // @Test
     // @Order(6)

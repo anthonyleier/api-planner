@@ -25,9 +25,9 @@ import br.com.anthonycruz.planner.link.LinkDTO;
 import br.com.anthonycruz.planner.link.LinkRequest;
 import br.com.anthonycruz.planner.link.LinkResponse;
 import br.com.anthonycruz.planner.link.LinkService;
+import br.com.anthonycruz.planner.participant.Participant;
 import br.com.anthonycruz.planner.participant.ParticipantDTO;
 import br.com.anthonycruz.planner.participant.ParticipantRequest;
-import br.com.anthonycruz.planner.participant.ParticipantResponse;
 import br.com.anthonycruz.planner.participant.ParticipantService;
 
 @RestController
@@ -135,19 +135,25 @@ public class TripController {
     }
 
     @PostMapping("/{id}/invite")
-    public ResponseEntity<ParticipantResponse> inviteParticipant(@PathVariable UUID id,
-            @RequestBody ParticipantRequest request) {
-        Optional<Trip> trip = this.service.findById(id);
-        if (trip.isPresent()) {
-            Trip rawTrip = trip.get();
+    public ResponseEntity<ParticipantDTO> inviteParticipant(@PathVariable UUID id, @RequestBody ParticipantRequest request) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
 
-            ParticipantResponse participantResponse = this.participantService.registerParticipantToTrip(request.email(),
-                    rawTrip);
-            if (rawTrip.isConfirmed())
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
+
+            Participant participant = this.participantService.registerParticipantToTrip(request.email(), trip);
+            ParticipantDTO participantDTO = new ParticipantDTO(
+                    participant.getId(),
+                    participant.getName(),
+                    participant.getEmail(),
+                    participant.isConfirmed());
+
+            if (trip.isConfirmed())
                 this.participantService.triggerConfirmationEmailToParticipant(request.email());
 
-            return ResponseEntity.ok(participantResponse);
+            return ResponseEntity.ok(participantDTO);
         }
+
         return ResponseEntity.notFound().build();
     }
 
