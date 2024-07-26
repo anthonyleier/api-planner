@@ -82,18 +82,30 @@ public class TripController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Trip> updateTrip(@PathVariable UUID id, @RequestBody TripRequest request) {
-        Optional<Trip> trip = this.service.findById(id);
-        if (trip.isPresent()) {
-            Trip rawTrip = trip.get();
+    public ResponseEntity<TripDTO> updateTrip(@PathVariable UUID id, @RequestBody TripRequest request) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
+
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
 
             var destination = request.destination();
             var startsAt = LocalDateTime.parse(request.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
             var endsAt = LocalDateTime.parse(request.ends_at(), DateTimeFormatter.ISO_DATE_TIME);
 
-            Trip updatedTrip = this.service.update(rawTrip, destination, startsAt, endsAt);
-            return ResponseEntity.ok(updatedTrip);
+            Trip updatedTrip = this.service.update(trip, destination, startsAt, endsAt);
+
+            TripDTO tripDTO = new TripDTO(
+                    updatedTrip.getId(),
+                    updatedTrip.getDestination(),
+                    updatedTrip.getStartsAt(),
+                    updatedTrip.getEndsAt(),
+                    updatedTrip.isConfirmed(),
+                    updatedTrip.getOwnerName(),
+                    updatedTrip.getOwnerEmail());
+
+            return ResponseEntity.ok(tripDTO);
         }
+
         return ResponseEntity.notFound().build();
     }
 

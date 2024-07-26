@@ -121,33 +121,36 @@ public class TripControllerTest {
         assertFalse(tripDTO.isConfirmed());
     }
 
-    // @Test
-    // @Order(3)
-    // public void testUpdate() {
-    // TripRequest request = new TripRequest(
-    // "Florianópolis/SC",
-    // "2025-12-15T09:00:00.000Z",
-    // "2025-12-20T18:00:00.000Z", null, null, null);
+    @Test
+    @Order(3)
+    public void testUpdate() {
+        TripRequest request = new TripRequest(
+                "Florianópolis/SC",
+                "2025-12-15T09:00:00.000Z",
+                "2025-12-20T18:00:00.000Z",
+                null,
+                null,
+                null);
 
-    // Response response = RestAssured
-    // .given()
-    // .baseUri("http://localhost:8888")
-    // .basePath("/trips/" + tripID)
-    // .body(request)
-    // .contentType("application/json")
-    // .when()
-    // .put();
-    // TripDTO tripDTO = response.as(TripDTO.class);
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/trips/" + tripID)
+                .body(request)
+                .contentType("application/json")
+                .when()
+                .put();
+        TripDTO tripDTO = response.as(TripDTO.class);
 
-    // assertEquals(200, response.statusCode());
-    // assertEquals(tripID, tripDTO.id());
-    // assertEquals("Florianópolis/SC", tripDTO.destination());
-    // assertEquals("2025-12-15T09:00:00", tripDTO.startsAt().toString());
-    // assertEquals("2025-12-20T18:00:00", tripDTO.endsAt().toString());
-    // assertEquals("Carlos Lima", tripDTO.ownerName());
-    // assertEquals("carlos.lima@gmail.com", tripDTO.ownerEmail());
-    // assertFalse(tripDTO.isConfirmed());
-    // }
+        assertEquals(200, response.statusCode());
+        assertEquals(tripID, tripDTO.id());
+        assertEquals("Florianópolis/SC", tripDTO.destination());
+        assertEquals("2025-12-15T09:00", tripDTO.startsAt().toString());
+        assertEquals("2025-12-20T18:00", tripDTO.endsAt().toString());
+        assertEquals("Carlos Lima", tripDTO.ownerName());
+        assertEquals("carlos.lima@gmail.com", tripDTO.ownerEmail());
+        assertFalse(tripDTO.isConfirmed());
+    }
 
     // @Test
     // @Order(4)
