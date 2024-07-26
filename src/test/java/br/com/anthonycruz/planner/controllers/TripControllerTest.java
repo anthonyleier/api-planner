@@ -1,8 +1,6 @@
 package br.com.anthonycruz.planner.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,26 +150,26 @@ public class TripControllerTest {
         assertFalse(tripDTO.isConfirmed());
     }
 
-    // @Test
-    // @Order(4)
-    // public void testConfirm() {
-    // Response response = RestAssured
-    // .given()
-    // .baseUri("http://localhost:8888/")
-    // .basePath("/trips/" + tripID + "/confirm")
-    // .when()
-    // .get();
-    // TripDTO tripDTO = response.as(TripDTO.class);
+    @Test
+    @Order(4)
+    public void testConfirm() {
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888/")
+                .basePath("/trips/" + tripID + "/confirm")
+                .when()
+                .get();
+        TripDTO tripDTO = response.as(TripDTO.class);
 
-    // assertEquals(200, response.statusCode());
-    // assertEquals(tripID, tripDTO.id());
-    // assertEquals("Florianópolis/SC", tripDTO.destination());
-    // assertEquals("2025-12-15T09:00:00", tripDTO.startsAt().toString());
-    // assertEquals("2025-12-20T18:00:00", tripDTO.endsAt().toString());
-    // assertEquals("Carlos Lima", tripDTO.ownerName());
-    // assertEquals("carlos.lima@gmail.com", tripDTO.ownerEmail());
-    // assertTrue(tripDTO.isConfirmed());
-    // }
+        assertEquals(200, response.statusCode());
+        assertEquals(tripID, tripDTO.id());
+        assertEquals("Florianópolis/SC", tripDTO.destination());
+        assertEquals("2025-12-15T09:00", tripDTO.startsAt().toString());
+        assertEquals("2025-12-20T18:00", tripDTO.endsAt().toString());
+        assertEquals("Carlos Lima", tripDTO.ownerName());
+        assertEquals("carlos.lima@gmail.com", tripDTO.ownerEmail());
+        assertTrue(tripDTO.isConfirmed());
+    }
 
     // @Test
     // @Order(5)

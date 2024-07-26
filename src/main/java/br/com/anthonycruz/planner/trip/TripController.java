@@ -110,16 +110,27 @@ public class TripController {
     }
 
     @GetMapping("/{id}/confirm")
-    public ResponseEntity<Trip> confirmTrip(@PathVariable UUID id) {
-        Optional<Trip> trip = this.service.findById(id);
-        if (trip.isPresent()) {
-            Trip rawTrip = trip.get();
+    public ResponseEntity<TripDTO> confirmTrip(@PathVariable UUID id) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
 
-            Trip updatedTrip = this.service.confirm(rawTrip);
-            this.participantService.triggerConfirmationEmailToParticipants(rawTrip.getId());
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
 
-            return ResponseEntity.ok(updatedTrip);
+            Trip updatedTrip = this.service.confirm(trip);
+            this.participantService.triggerConfirmationEmailToParticipants(trip.getId());
+
+            TripDTO tripDTO = new TripDTO(
+                    updatedTrip.getId(),
+                    updatedTrip.getDestination(),
+                    updatedTrip.getStartsAt(),
+                    updatedTrip.getEndsAt(),
+                    updatedTrip.isConfirmed(),
+                    updatedTrip.getOwnerName(),
+                    updatedTrip.getOwnerEmail());
+
+            return ResponseEntity.ok(tripDTO);
         }
+
         return ResponseEntity.notFound().build();
     }
 
