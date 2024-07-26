@@ -1,5 +1,22 @@
 package br.com.anthonycruz.planner.trip;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.anthonycruz.planner.activity.ActivityDTO;
 import br.com.anthonycruz.planner.activity.ActivityRequest;
 import br.com.anthonycruz.planner.activity.ActivityResponse;
@@ -12,16 +29,6 @@ import br.com.anthonycruz.planner.participant.ParticipantDTO;
 import br.com.anthonycruz.planner.participant.ParticipantRequest;
 import br.com.anthonycruz.planner.participant.ParticipantResponse;
 import br.com.anthonycruz.planner.participant.ParticipantService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/trips")
@@ -39,18 +46,39 @@ public class TripController {
     private LinkService linkService;
 
     @PostMapping
-    public ResponseEntity<TripResponse> create(@RequestBody TripRequest request) {
+    public ResponseEntity<TripDTO> create(@RequestBody TripRequest request) {
         Trip trip = this.service.create(request);
+        TripDTO tripDTO = new TripDTO(
+                trip.getId(),
+                trip.getDestination(),
+                trip.getStartsAt(),
+                trip.getEndsAt(),
+                trip.isConfirmed(),
+                trip.getOwnerName(),
+                trip.getOwnerEmail());
         this.participantService.registerParticipantsToTrip(request.emails_to_invite(), trip);
-
-        TripResponse response = new TripResponse(trip.getId());
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(tripDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Trip> getTripDetails(@PathVariable UUID id) {
-        Optional<Trip> trip = this.service.findById(id);
-        return trip.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<TripDTO> getTripDetails(@PathVariable UUID id) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
+
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
+
+            TripDTO tripDTO = new TripDTO(
+                    trip.getId(),
+                    trip.getDestination(),
+                    trip.getStartsAt(),
+                    trip.getEndsAt(),
+                    trip.isConfirmed(),
+                    trip.getOwnerName(),
+                    trip.getOwnerEmail());
+
+            return ResponseEntity.ok(tripDTO);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
@@ -84,13 +112,16 @@ public class TripController {
     }
 
     @PostMapping("/{id}/invite")
-    public ResponseEntity<ParticipantResponse> inviteParticipant(@PathVariable UUID id, @RequestBody ParticipantRequest request) {
+    public ResponseEntity<ParticipantResponse> inviteParticipant(@PathVariable UUID id,
+            @RequestBody ParticipantRequest request) {
         Optional<Trip> trip = this.service.findById(id);
         if (trip.isPresent()) {
             Trip rawTrip = trip.get();
 
-            ParticipantResponse participantResponse = this.participantService.registerParticipantToTrip(request.email(), rawTrip);
-            if (rawTrip.isConfirmed()) this.participantService.triggerConfirmationEmailToParticipant(request.email());
+            ParticipantResponse participantResponse = this.participantService.registerParticipantToTrip(request.email(),
+                    rawTrip);
+            if (rawTrip.isConfirmed())
+                this.participantService.triggerConfirmationEmailToParticipant(request.email());
 
             return ResponseEntity.ok(participantResponse);
         }
@@ -104,7 +135,8 @@ public class TripController {
     }
 
     @PostMapping("/{id}/activities")
-    public ResponseEntity<ActivityResponse> registerActivity(@PathVariable UUID id, @RequestBody ActivityRequest request) {
+    public ResponseEntity<ActivityResponse> registerActivity(@PathVariable UUID id,
+            @RequestBody ActivityRequest request) {
         Optional<Trip> trip = this.service.findById(id);
         if (trip.isPresent()) {
             Trip rawTrip = trip.get();
