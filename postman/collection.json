@@ -8,12 +8,27 @@
 	"item": [
 		{
 			"name": "Criar nova viagem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code >= 200 && pm.response.code <= 299) {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"tripID\", jsonData.id);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"destination\": \"Florianópilis/SC\",\r\n    \"starts_at\": \"2025-01-01T08:00:00.000Z\",\r\n    \"ends_at\": \"2025-01-05T20:30:00.000Z\",\r\n    \"emails_to_invite\": [\r\n        \"anthony.cruz@alfatransportes.com.br\",\r\n        \"luiz.kraus@alfatransportes.com.br\"\r\n    ],\r\n    \"owner_name\": \"Anthony Cruz\",\r\n    \"owner_email\": \"anthonyleierlw@gmail.com\"\r\n}",
+					"raw": "{\r\n    \"destination\": \"Manaus/AM\",\r\n    \"starts_at\": \"2024-12-15T09:00:00.000Z\",\r\n    \"ends_at\": \"2024-12-20T18:00:00.000Z\",\r\n    \"emails_to_invite\": [\r\n        \"joao.silva@gmail.com\",\r\n        \"maria.souza@gmail.com\"\r\n    ],\r\n    \"owner_name\": \"Carlos Lima\",\r\n    \"owner_email\": \"carlos.lima@gmail.com\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +56,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"Visitar praia de canasvieiras\",\r\n    \"occurs_at\": \"2025-01-03T08:00:00.000Z\"\r\n}",
+					"raw": "{\r\n    \"title\": \"Visitar praia de canasvieiras\",\r\n    \"occurs_at\": \"2024-12-17T08:00:00.000Z\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -49,7 +64,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/9143c134-07b9-4906-a517-196a79c3507e/activities",
+					"raw": "http://localhost:8080/trips/{{tripID}}/activities",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -57,7 +72,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"9143c134-07b9-4906-a517-196a79c3507e",
+						"{{tripID}}",
 						"activities"
 					]
 				}
@@ -79,7 +94,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/a6cdcff3-da67-4054-b241-0f289118f762/links",
+					"raw": "http://localhost:8080/trips/{{tripID}}/links",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -87,7 +102,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"a6cdcff3-da67-4054-b241-0f289118f762",
+						"{{tripID}}",
 						"links"
 					]
 				}
@@ -100,7 +115,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/9143c134-07b9-4906-a517-196a79c3507e/activities",
+					"raw": "http://localhost:8080/trips/{{tripID}}/activities",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -108,7 +123,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"9143c134-07b9-4906-a517-196a79c3507e",
+						"{{tripID}}",
 						"activities"
 					]
 				}
@@ -121,7 +136,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/a6cdcff3-da67-4054-b241-0f289118f762/links",
+					"raw": "http://localhost:8080/trips/{{tripID}}/links",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -129,7 +144,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"a6cdcff3-da67-4054-b241-0f289118f762",
+						"{{tripID}}",
 						"links"
 					]
 				}
@@ -151,7 +166,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/e908bb47-9709-4945-829d-f239fc452691",
+					"raw": "http://localhost:8080/trips/{{tripID}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -159,7 +174,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"e908bb47-9709-4945-829d-f239fc452691"
+						"{{tripID}}"
 					]
 				}
 			},
@@ -171,7 +186,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/e908bb47-9709-4945-829d-f239fc452691/confirm",
+					"raw": "http://localhost:8080/trips/{{tripID}}/confirm",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -179,7 +194,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"e908bb47-9709-4945-829d-f239fc452691",
+						"{{tripID}}",
 						"confirm"
 					]
 				}
@@ -201,7 +216,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/participants/2b69a766-1948-4a80-bacf-1ed611e9fd33/confirm",
+					"raw": "http://localhost:8080/participants/{{participantID}}/confirm",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -209,7 +224,7 @@
 					"port": "8080",
 					"path": [
 						"participants",
-						"2b69a766-1948-4a80-bacf-1ed611e9fd33",
+						"{{participantID}}",
 						"confirm"
 					]
 				}
@@ -218,6 +233,21 @@
 		},
 		{
 			"name": "Convidar participante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code >= 200 && pm.response.code <= 299) {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"participantID\", jsonData.id);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -231,7 +261,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/22484b51-fba5-4787-bd61-0bf7058b5a4d/invite",
+					"raw": "http://localhost:8080/trips/{{tripID}}/invite",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -239,7 +269,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"22484b51-fba5-4787-bd61-0bf7058b5a4d",
+						"{{tripID}}",
 						"invite"
 					]
 				}
@@ -252,7 +282,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/22484b51-fba5-4787-bd61-0bf7058b5a4d",
+					"raw": "http://localhost:8080/trips/{{tripID}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -260,7 +290,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"22484b51-fba5-4787-bd61-0bf7058b5a4d"
+						"{{tripID}}"
 					]
 				}
 			},
@@ -272,7 +302,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/0f161493-9882-4909-bb93-91274185be37/participants",
+					"raw": "http://localhost:8080/trips/{{tripID}}/participants",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -280,7 +310,7 @@
 					"port": "8080",
 					"path": [
 						"trips",
-						"0f161493-9882-4909-bb93-91274185be37",
+						"{{tripID}}",
 						"participants"
 					]
 				}
