@@ -55,10 +55,11 @@ public class ActivityServiceTest {
         when(repository.save(any(Activity.class))).thenReturn(activity);
 
         ActivityRequest request = MockActivity.mockRequest("2024-07-23T15:00");
-        ActivityResponse response = service.registerActivity(request, trip);
+        Activity savedActivity = service.registerActivity(request, trip);
 
-        assertNotNull(response);
-        assertNotNull(response.id());
+        assertNotNull(savedActivity.getId());
+        assertEquals(savedActivity.getTitle(), activity.getTitle());
+        assertEquals(savedActivity.getOccursAt(), activity.getOccursAt());
     }
 
     @Test

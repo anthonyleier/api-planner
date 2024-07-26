@@ -35,13 +35,15 @@ public class LinkServiceTest {
         UUID testTripId = UUID.fromString("33f609fc-004b-4fc2-a635-71d2eae72060");
         Trip trip = MockTrip.mockEntity(testTripId);
 
-        when(repository.save(any(Link.class))).thenReturn(MockLink.mockEntity());
+        Link link = MockLink.mockEntity();
+        when(repository.save(any(Link.class))).thenReturn(link);
 
         LinkRequest request = MockLink.mockRequest();
-        LinkResponse response = service.registerLink(request, trip);
+        Link savedLink = service.registerLink(request, trip);
 
-        assertNotNull(response);
-        assertNotNull(response.id());
+        assertNotNull(savedLink.getId());
+        assertEquals(link.getTitle(), savedLink.getTitle());
+        assertEquals(link.getUrl(), savedLink.getUrl());
     }
 
     @Test

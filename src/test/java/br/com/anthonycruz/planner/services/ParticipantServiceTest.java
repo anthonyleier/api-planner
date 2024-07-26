@@ -61,14 +61,16 @@ public class ParticipantServiceTest {
         String email = "amanda.silva83@gmail.com";
         UUID testTripId = UUID.fromString("33f609fc-004b-4fc2-a635-71d2eae72060");
 
-        Participant mockEntity = MockParticipant.mockEntityWithEmail(email);
-        when(repository.save(any(Participant.class))).thenReturn(mockEntity);
+        Participant participant = MockParticipant.mockEntityWithEmail(email);
+        when(repository.save(any(Participant.class))).thenReturn(participant);
 
         Trip trip = MockTrip.mockEntity(testTripId);
-        ParticipantResponse response = service.registerParticipantToTrip("anthonyleierlw@gmail.com", trip);
+        Participant savedParticipant = service.registerParticipantToTrip(email, trip);
 
-        assertNotNull(response);
-        assertNotNull(response.id());
+        assertNotNull(savedParticipant.getId());
+        assertEquals(participant.getName(), savedParticipant.getName());
+        assertEquals(participant.getEmail(), savedParticipant.getEmail());
+        assertFalse(participant.isConfirmed());
     }
 
     @Test
