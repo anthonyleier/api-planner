@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.anthonycruz.planner.exceptions.StartDateAfterEndDate;
@@ -14,8 +13,11 @@ import br.com.anthonycruz.planner.requests.TripRequest;
 
 @Service
 public class TripService {
-    @Autowired
-    private TripRepository repository;
+    private final TripRepository repository;
+
+    public TripService(TripRepository repository) {
+        this.repository = repository;
+    }
 
     public Trip create(TripRequest request) {
         Trip trip = new Trip(request);

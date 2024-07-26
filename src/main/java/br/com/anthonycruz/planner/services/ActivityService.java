@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.anthonycruz.planner.dtos.ActivityDTO;
@@ -16,8 +15,11 @@ import br.com.anthonycruz.planner.requests.ActivityRequest;
 
 @Service
 public class ActivityService {
-    @Autowired
-    private ActivityRepository repository;
+    private final ActivityRepository repository;
+
+    public ActivityService(ActivityRepository repository) {
+        this.repository = repository;
+    }
 
     public boolean isDateInRange(LocalDateTime dateToCheck, LocalDateTime startDate, LocalDateTime endDate) {
         return dateToCheck.isAfter(startDate) && dateToCheck.isBefore(endDate);

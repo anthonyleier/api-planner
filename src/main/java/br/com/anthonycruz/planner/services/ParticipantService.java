@@ -3,7 +3,6 @@ package br.com.anthonycruz.planner.services;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.anthonycruz.planner.dtos.ParticipantDTO;
@@ -13,8 +12,11 @@ import br.com.anthonycruz.planner.repositories.ParticipantRepository;
 
 @Service
 public class ParticipantService {
-    @Autowired
-    private ParticipantRepository repository;
+    private final ParticipantRepository repository;
+
+    private ParticipantService(ParticipantRepository repository) {
+        this.repository = repository;
+    }
 
     public List<Participant> registerParticipantsToTrip(List<String> participantsToInvite, Trip trip) {
         List<Participant> participants = participantsToInvite.stream().map(email -> new Participant(email, trip)).toList();

@@ -3,7 +3,6 @@ package br.com.anthonycruz.planner.services;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.anthonycruz.planner.dtos.LinkDTO;
@@ -14,8 +13,11 @@ import br.com.anthonycruz.planner.requests.LinkRequest;
 
 @Service
 public class LinkService {
-    @Autowired
-    LinkRepository repository;
+    private final LinkRepository repository;
+
+    public LinkService(LinkRepository repository) {
+        this.repository = repository;
+    }
 
     public Link registerLink(LinkRequest request, Trip trip) {
         Link newLink = new Link(request.title(), request.url(), trip);

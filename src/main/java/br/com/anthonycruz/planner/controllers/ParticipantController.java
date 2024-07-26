@@ -3,7 +3,6 @@ package br.com.anthonycruz.planner.controllers;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +18,11 @@ import br.com.anthonycruz.planner.requests.ParticipantRequest;
 @RestController
 @RequestMapping("/participants")
 public class ParticipantController {
+    private final ParticipantRepository repository;
 
-    @Autowired
-    private ParticipantRepository repository;
+    public ParticipantController(ParticipantRepository repository) {
+        this.repository = repository;
+    }
 
     @PostMapping("/{id}/confirm")
     public ResponseEntity<ParticipantDTO> confirmParticipant(@PathVariable UUID id, @RequestBody ParticipantRequest request) {

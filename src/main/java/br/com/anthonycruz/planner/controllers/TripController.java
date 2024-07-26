@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,17 +36,17 @@ import br.com.anthonycruz.planner.services.TripService;
 @RestController
 @RequestMapping("/trips")
 public class TripController {
-    @Autowired
-    private TripService service;
+    private final TripService service;
+    private final ParticipantService participantService;
+    private final ActivityService activityService;
+    private final LinkService linkService;
 
-    @Autowired
-    private ParticipantService participantService;
-
-    @Autowired
-    private ActivityService activityService;
-
-    @Autowired
-    private LinkService linkService;
+    public TripController(TripService service, ParticipantService participantService, ActivityService activityService, LinkService linkService) {
+        this.service = service;
+        this.participantService = participantService;
+        this.activityService = activityService;
+        this.linkService = linkService;
+    }
 
     @PostMapping
     public ResponseEntity<TripDTO> create(@RequestBody TripRequest request) {
