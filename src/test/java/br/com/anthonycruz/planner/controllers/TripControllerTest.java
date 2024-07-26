@@ -27,6 +27,7 @@ import br.com.anthonycruz.planner.trip.TripDTO;
 import br.com.anthonycruz.planner.trip.TripRequest;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -70,8 +71,6 @@ public class TripControllerTest {
     @Order(1)
     public void testCreate() {
         List<String> emails = new ArrayList<>();
-        emails.add("joao.silva@gmail.com");
-        emails.add("maria.souza@gmail.com");
 
         TripRequest request = new TripRequest(
                 "Manaus/AM",
@@ -198,49 +197,48 @@ public class TripControllerTest {
         assertFalse(participantDTO.isConfirmed());
     }
 
-    // @Test
-    // @Order(6)
-    // public void testGetAllParticipants() {
-    // Response response = RestAssured
-    // .given()
-    // .baseUri("http://localhost:8888/")
-    // .basePath("/trips/" + tripID + "/participants")
-    // .when()
-    // .get();
+    @Test
+    @Order(6)
+    public void testGetAllParticipants() {
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888/")
+                .basePath("/trips/" + tripID + "/participants")
+                .when()
+                .get();
 
-    // List<ParticipantDTO> participants = response.as(new
-    // TypeRef<List<ParticipantDTO>>() {
-    // });
-    // ParticipantDTO participantDTO = participants.getFirst();
+        List<ParticipantDTO> participants = response.as(new TypeRef<List<ParticipantDTO>>() {
+        });
+        ParticipantDTO participantDTO = participants.getFirst();
 
-    // assertEquals(200, response.statusCode());
-    // assertNotNull(participantDTO.id());
-    // assertNull(participantDTO.name());
-    // assertEquals("jose.silva123@gmail.com", participantDTO.email());
-    // assertFalse(participantDTO.isConfirmed());
-    // }
+        assertEquals(200, response.statusCode());
+        assertNotNull(participantDTO.id());
+        assertEquals("", participantDTO.name());
+        assertEquals("jose.silva123@gmail.com", participantDTO.email());
+        assertFalse(participantDTO.isConfirmed());
+    }
 
     // @Test
     // @Order(7)
     // public void testRegisterActivity() {
-    // String title = "Visit Canasvieiras Beach";
-    // String occursAt = "2024-12-17T08:00:00.000Z";
-    // ActivityRequest request = new ActivityRequest(title, occursAt);
+    //     String title = "Visit Canasvieiras Beach";
+    //     String occursAt = "2024-12-17T08:00:00.000Z";
+    //     ActivityRequest request = new ActivityRequest(title, occursAt);
 
-    // Response response = RestAssured
-    // .given()
-    // .baseUri("http://localhost:8888")
-    // .basePath("/trips/" + tripID + "/activities")
-    // .body(request)
-    // .contentType("application/json")
-    // .when()
-    // .post();
-    // ActivityDTO activityDTO = response.as(ActivityDTO.class);
+    //     Response response = RestAssured
+    //             .given()
+    //             .baseUri("http://localhost:8888")
+    //             .basePath("/trips/" + tripID + "/activities")
+    //             .body(request)
+    //             .contentType("application/json")
+    //             .when()
+    //             .post();
+    //     ActivityDTO activityDTO = response.as(ActivityDTO.class);
 
-    // assertEquals(200, response.statusCode());
-    // assertNotNull(activityDTO.id());
-    // assertEquals(title, activityDTO.title());
-    // assertEquals(occursAt, activityDTO.occursAt());
+    //     assertEquals(200, response.statusCode());
+    //     assertNotNull(activityDTO.id());
+    //     assertEquals(title, activityDTO.title());
+    //     assertEquals(occursAt, activityDTO.occursAt());
     // }
 
     // @Test
