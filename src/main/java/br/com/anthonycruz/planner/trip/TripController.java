@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.anthonycruz.planner.activity.Activity;
 import br.com.anthonycruz.planner.activity.ActivityDTO;
 import br.com.anthonycruz.planner.activity.ActivityRequest;
 import br.com.anthonycruz.planner.activity.ActivityResponse;
@@ -164,15 +165,18 @@ public class TripController {
     }
 
     @PostMapping("/{id}/activities")
-    public ResponseEntity<ActivityResponse> registerActivity(@PathVariable UUID id,
-            @RequestBody ActivityRequest request) {
-        Optional<Trip> trip = this.service.findById(id);
-        if (trip.isPresent()) {
-            Trip rawTrip = trip.get();
+    public ResponseEntity<ActivityDTO> registerActivity(@PathVariable UUID id, @RequestBody ActivityRequest request) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
 
-            ActivityResponse response = this.activityService.registerActivity(request, rawTrip);
-            return ResponseEntity.ok(response);
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
+
+            Activity activity = this.activityService.registerActivity(request, trip);
+            ActivityDTO activityDTO = new ActivityDTO(activity.getId(), activity.getTitle(), activity.getOccursAt());
+
+            return ResponseEntity.ok(activityDTO);
         }
+
         return ResponseEntity.notFound().build();
     }
 

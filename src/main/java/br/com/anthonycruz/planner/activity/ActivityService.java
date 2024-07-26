@@ -14,15 +14,15 @@ public class ActivityService {
     @Autowired
     private ActivityRepository repository;
 
-    public boolean isDateInRange(LocalDateTime dateToCheck, LocalDateTime startDate, LocalDateTime endDate){
+    public boolean isDateInRange(LocalDateTime dateToCheck, LocalDateTime startDate, LocalDateTime endDate) {
         return dateToCheck.isAfter(startDate) && dateToCheck.isBefore(endDate);
     }
 
-    public ActivityResponse registerActivity(ActivityRequest request, Trip trip) {
+    public Activity registerActivity(ActivityRequest request, Trip trip) {
         Activity newActivity = new Activity(request.title(), request.occurs_at(), trip);
         if (!isDateInRange(newActivity.getOccursAt(), trip.getStartsAt(), trip.getEndsAt())) throw new ActivityDateNotInTripRange();
         Activity savedActivity = this.repository.save(newActivity);
-        return new ActivityResponse(savedActivity.getId());
+        return savedActivity;
     }
 
     public List<ActivityDTO> getAllActivitiesFromTrip(UUID id) {

@@ -21,6 +21,8 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import br.com.anthonycruz.planner.activity.ActivityDTO;
+import br.com.anthonycruz.planner.activity.ActivityRequest;
 import br.com.anthonycruz.planner.participant.ParticipantDTO;
 import br.com.anthonycruz.planner.participant.ParticipantRequest;
 import br.com.anthonycruz.planner.trip.TripDTO;
@@ -218,28 +220,26 @@ public class TripControllerTest {
         assertFalse(participantDTO.isConfirmed());
     }
 
-    // @Test
-    // @Order(7)
-    // public void testRegisterActivity() {
-    //     String title = "Visit Canasvieiras Beach";
-    //     String occursAt = "2024-12-17T08:00:00.000Z";
-    //     ActivityRequest request = new ActivityRequest(title, occursAt);
+    @Test
+    @Order(7)
+    public void testRegisterActivity() {
+        ActivityRequest request = new ActivityRequest("Visit Canasvieiras Beach", "2025-12-17T08:00:00.000Z");
 
-    //     Response response = RestAssured
-    //             .given()
-    //             .baseUri("http://localhost:8888")
-    //             .basePath("/trips/" + tripID + "/activities")
-    //             .body(request)
-    //             .contentType("application/json")
-    //             .when()
-    //             .post();
-    //     ActivityDTO activityDTO = response.as(ActivityDTO.class);
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/trips/" + tripID + "/activities")
+                .body(request)
+                .contentType("application/json")
+                .when()
+                .post();
+        ActivityDTO activityDTO = response.as(ActivityDTO.class);
 
-    //     assertEquals(200, response.statusCode());
-    //     assertNotNull(activityDTO.id());
-    //     assertEquals(title, activityDTO.title());
-    //     assertEquals(occursAt, activityDTO.occursAt());
-    // }
+        assertEquals(200, response.statusCode());
+        assertNotNull(activityDTO.id());
+        assertEquals("Visit Canasvieiras Beach", activityDTO.title());
+        assertEquals("2025-12-17T08:00", activityDTO.occursAt().toString());
+    }
 
     // @Test
     // @Order(8)
