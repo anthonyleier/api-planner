@@ -1,4 +1,4 @@
-package br.com.anthonycruz.planner.activity;
+package br.com.anthonycruz.planner.dtos;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

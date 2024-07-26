@@ -1,4 +1,4 @@
-package br.com.anthonycruz.planner.link;
+package br.com.anthonycruz.planner.dtos;
 
 import java.util.UUID;
 

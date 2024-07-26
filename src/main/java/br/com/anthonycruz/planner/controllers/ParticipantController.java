@@ -1,11 +1,20 @@
-package br.com.anthonycruz.planner.participant;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+package br.com.anthonycruz.planner.controllers;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.anthonycruz.planner.dtos.ParticipantDTO;
+import br.com.anthonycruz.planner.models.Participant;
+import br.com.anthonycruz.planner.repositories.ParticipantRepository;
+import br.com.anthonycruz.planner.requests.ParticipantRequest;
 
 @RestController
 @RequestMapping("/participants")

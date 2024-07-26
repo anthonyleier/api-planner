@@ -1,11 +1,15 @@
-package br.com.anthonycruz.planner.participant;
-
-import br.com.anthonycruz.planner.trip.Trip;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package br.com.anthonycruz.planner.services;
 
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.anthonycruz.planner.dtos.ParticipantDTO;
+import br.com.anthonycruz.planner.models.Participant;
+import br.com.anthonycruz.planner.models.Trip;
+import br.com.anthonycruz.planner.repositories.ParticipantRepository;
 
 @Service
 public class ParticipantService {
@@ -30,6 +34,9 @@ public class ParticipantService {
     }
 
     public List<ParticipantDTO> getAllParticipantsFromTrip(UUID id) {
-        return this.repository.findByTripId(id).stream().map(participant -> new ParticipantDTO(participant.getId(), participant.getName(), participant.getEmail(), participant.isConfirmed())).toList();
+        return this.repository.findByTripId(id)
+                .stream()
+                .map(participant -> new ParticipantDTO(participant.getId(), participant.getName(), participant.getEmail(), participant.isConfirmed()))
+                .toList();
     }
 }

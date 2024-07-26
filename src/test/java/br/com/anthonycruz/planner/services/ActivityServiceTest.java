@@ -1,23 +1,31 @@
 package br.com.anthonycruz.planner.services;
 
-import br.com.anthonycruz.planner.activity.*;
-import br.com.anthonycruz.planner.exceptions.ActivityDateNotInTripRange;
-import br.com.anthonycruz.planner.mocks.MockActivity;
-import br.com.anthonycruz.planner.mocks.MockTrip;
-import br.com.anthonycruz.planner.trip.Trip;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import br.com.anthonycruz.planner.dtos.ActivityDTO;
+import br.com.anthonycruz.planner.exceptions.ActivityDateNotInTripRange;
+import br.com.anthonycruz.planner.mocks.MockActivity;
+import br.com.anthonycruz.planner.mocks.MockTrip;
+import br.com.anthonycruz.planner.models.Activity;
+import br.com.anthonycruz.planner.models.Trip;
+import br.com.anthonycruz.planner.repositories.ActivityRepository;
+import br.com.anthonycruz.planner.requests.ActivityRequest;
 
 public class ActivityServiceTest {
     @Mock

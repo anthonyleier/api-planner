@@ -1,12 +1,12 @@
 package br.com.anthonycruz.planner.mocks;
 
-import br.com.anthonycruz.planner.activity.Activity;
-import br.com.anthonycruz.planner.activity.ActivityRequest;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import br.com.anthonycruz.planner.models.Activity;
+import br.com.anthonycruz.planner.requests.ActivityRequest;
 
 public class MockActivity {
     public static List<Activity> mockEntities(int qty) {

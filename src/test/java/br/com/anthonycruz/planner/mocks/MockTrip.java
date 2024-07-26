@@ -1,13 +1,13 @@
 package br.com.anthonycruz.planner.mocks;
 
-import br.com.anthonycruz.planner.trip.Trip;
-import br.com.anthonycruz.planner.trip.TripRequest;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import br.com.anthonycruz.planner.models.Trip;
+import br.com.anthonycruz.planner.requests.TripRequest;
 
 public class MockTrip {
     public static Trip mockEntity(UUID testId) {
@@ -34,7 +34,6 @@ public class MockTrip {
                 endsAt,
                 emails,
                 "anthonyleierlw@gmail.com",
-                "Anthony Cruz"
-        );
+                "Anthony Cruz");
     }
 }

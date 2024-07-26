@@ -1,4 +1,4 @@
-package br.com.anthonycruz.planner.trip;
+package br.com.anthonycruz.planner.controllers;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,18 +17,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.anthonycruz.planner.activity.Activity;
-import br.com.anthonycruz.planner.activity.ActivityDTO;
-import br.com.anthonycruz.planner.activity.ActivityRequest;
-import br.com.anthonycruz.planner.activity.ActivityService;
-import br.com.anthonycruz.planner.link.Link;
-import br.com.anthonycruz.planner.link.LinkDTO;
-import br.com.anthonycruz.planner.link.LinkRequest;
-import br.com.anthonycruz.planner.link.LinkService;
-import br.com.anthonycruz.planner.participant.Participant;
-import br.com.anthonycruz.planner.participant.ParticipantDTO;
-import br.com.anthonycruz.planner.participant.ParticipantRequest;
-import br.com.anthonycruz.planner.participant.ParticipantService;
+import br.com.anthonycruz.planner.dtos.ActivityDTO;
+import br.com.anthonycruz.planner.dtos.LinkDTO;
+import br.com.anthonycruz.planner.dtos.ParticipantDTO;
+import br.com.anthonycruz.planner.dtos.TripDTO;
+import br.com.anthonycruz.planner.models.Activity;
+import br.com.anthonycruz.planner.models.Link;
+import br.com.anthonycruz.planner.models.Participant;
+import br.com.anthonycruz.planner.models.Trip;
+import br.com.anthonycruz.planner.requests.ActivityRequest;
+import br.com.anthonycruz.planner.requests.LinkRequest;
+import br.com.anthonycruz.planner.requests.ParticipantRequest;
+import br.com.anthonycruz.planner.requests.TripRequest;
+import br.com.anthonycruz.planner.services.ActivityService;
+import br.com.anthonycruz.planner.services.LinkService;
+import br.com.anthonycruz.planner.services.ParticipantService;
+import br.com.anthonycruz.planner.services.TripService;
 
 @RestController
 @RequestMapping("/trips")

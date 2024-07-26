@@ -1,12 +1,16 @@
-package br.com.anthonycruz.planner.trip;
-
-import br.com.anthonycruz.planner.exceptions.StartDateAfterEndDate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package br.com.anthonycruz.planner.services;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.anthonycruz.planner.exceptions.StartDateAfterEndDate;
+import br.com.anthonycruz.planner.models.Trip;
+import br.com.anthonycruz.planner.repositories.TripRepository;
+import br.com.anthonycruz.planner.requests.TripRequest;
 
 @Service
 public class TripService {

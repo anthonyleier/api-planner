@@ -1,24 +1,28 @@
 package br.com.anthonycruz.planner.services;
 
-import br.com.anthonycruz.planner.exceptions.StartDateAfterEndDate;
-import br.com.anthonycruz.planner.mocks.MockTrip;
-import br.com.anthonycruz.planner.trip.Trip;
-import br.com.anthonycruz.planner.trip.TripRepository;
-import br.com.anthonycruz.planner.trip.TripRequest;
-import br.com.anthonycruz.planner.trip.TripService;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
+import br.com.anthonycruz.planner.exceptions.StartDateAfterEndDate;
+import br.com.anthonycruz.planner.mocks.MockTrip;
+import br.com.anthonycruz.planner.models.Trip;
+import br.com.anthonycruz.planner.repositories.TripRepository;
+import br.com.anthonycruz.planner.requests.TripRequest;
 
 public class TripServiceTest {
     @Mock

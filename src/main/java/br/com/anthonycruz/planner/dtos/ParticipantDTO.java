@@ -1,4 +1,4 @@
-package br.com.anthonycruz.planner.participant;
+package br.com.anthonycruz.planner.dtos;
 
 import java.util.UUID;
 

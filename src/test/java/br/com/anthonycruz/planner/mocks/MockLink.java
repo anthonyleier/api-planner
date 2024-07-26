@@ -1,11 +1,11 @@
 package br.com.anthonycruz.planner.mocks;
 
-import br.com.anthonycruz.planner.link.Link;
-import br.com.anthonycruz.planner.link.LinkRequest;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import br.com.anthonycruz.planner.models.Link;
+import br.com.anthonycruz.planner.requests.LinkRequest;
 
 public class MockLink {
     public static List<Link> mockEntities(int qty) {

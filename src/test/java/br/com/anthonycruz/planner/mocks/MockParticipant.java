@@ -1,10 +1,10 @@
 package br.com.anthonycruz.planner.mocks;
 
-import br.com.anthonycruz.planner.participant.Participant;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import br.com.anthonycruz.planner.models.Participant;
 
 public class MockParticipant {
     public static Participant mockEntityWithEmail(String email) {

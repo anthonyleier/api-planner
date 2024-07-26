@@ -1,9 +1,16 @@
 package br.com.anthonycruz.planner.services;
 
-import br.com.anthonycruz.planner.mocks.MockParticipant;
-import br.com.anthonycruz.planner.mocks.MockTrip;
-import br.com.anthonycruz.planner.participant.*;
-import br.com.anthonycruz.planner.trip.Trip;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +18,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import br.com.anthonycruz.planner.mocks.MockParticipant;
+import br.com.anthonycruz.planner.mocks.MockTrip;
+import br.com.anthonycruz.planner.models.Participant;
+import br.com.anthonycruz.planner.models.Trip;
+import br.com.anthonycruz.planner.repositories.ParticipantRepository;
 
 public class ParticipantServiceTest {
     private static final List<String> emails = new ArrayList<>();
@@ -75,12 +81,10 @@ public class ParticipantServiceTest {
 
     @Test
     public void testTriggerConfirmationEmailToParticipants() {
-
     }
 
     @Test
     public void testTriggerConfirmationEmailToParticipant() {
-
     }
 
     @Test
