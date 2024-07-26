@@ -36,12 +36,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips",
+					"raw": "http://localhost/trips",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips"
 					]
@@ -64,12 +63,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}/activities",
+					"raw": "http://localhost/trips/{{tripID}}/activities",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}",
@@ -94,12 +92,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}/links",
+					"raw": "http://localhost/trips/{{tripID}}/links",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}",
@@ -115,12 +112,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}/activities",
+					"raw": "http://localhost/trips/{{tripID}}/activities",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}",
@@ -136,12 +132,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}/links",
+					"raw": "http://localhost/trips/{{tripID}}/links",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}",
@@ -166,12 +161,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}",
+					"raw": "http://localhost/trips/{{tripID}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}"
@@ -186,12 +180,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}/confirm",
+					"raw": "http://localhost/trips/{{tripID}}/confirm",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}",
@@ -216,12 +209,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/participants/{{participantID}}/confirm",
+					"raw": "http://localhost/participants/{{participantID}}/confirm",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"participants",
 						"{{participantID}}",
@@ -261,12 +253,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}/invite",
+					"raw": "http://localhost/trips/{{tripID}}/invite",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}",
@@ -282,12 +273,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}",
+					"raw": "http://localhost/trips/{{tripID}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}"
@@ -302,12 +292,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/trips/{{tripID}}/participants",
+					"raw": "http://localhost/trips/{{tripID}}/participants",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
 						"trips",
 						"{{tripID}}",
