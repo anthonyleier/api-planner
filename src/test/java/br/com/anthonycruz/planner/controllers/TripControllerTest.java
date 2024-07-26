@@ -241,25 +241,25 @@ public class TripControllerTest {
         assertEquals("2025-12-17T08:00", activityDTO.occursAt().toString());
     }
 
-    // @Test
-    // @Order(8)
-    // public void testGetAllActivities() {
-    // Response response = RestAssured
-    // .given()
-    // .baseUri("http://localhost:8888/")
-    // .basePath("/trips/" + tripID + "/activities")
-    // .when()
-    // .get();
+    @Test
+    @Order(8)
+    public void testGetAllActivities() {
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888/")
+                .basePath("/trips/" + tripID + "/activities")
+                .when()
+                .get();
 
-    // List<ActivityDTO> activities = response.as(new TypeRef<List<ActivityDTO>>() {
-    // });
-    // ActivityDTO activityDTO = activities.getFirst();
+        List<ActivityDTO> activities = response.as(new TypeRef<List<ActivityDTO>>() {
+        });
+        ActivityDTO activityDTO = activities.getFirst();
 
-    // assertEquals(200, response.statusCode());
-    // assertNotNull(activityDTO.id());
-    // assertEquals("Visit Canasvieiras Beach", activityDTO.title());
-    // assertEquals("2024-12-17T08:00:00.000Z", activityDTO.occursAt());
-    // }
+        assertEquals(200, response.statusCode());
+        assertNotNull(activityDTO.id());
+        assertEquals("Visit Canasvieiras Beach", activityDTO.title());
+        assertEquals("2025-12-17T08:00", activityDTO.occursAt().toString());
+    }
 
     // @Test
     // @Order(9)
