@@ -22,6 +22,7 @@ import br.com.anthonycruz.planner.activity.ActivityDTO;
 import br.com.anthonycruz.planner.activity.ActivityRequest;
 import br.com.anthonycruz.planner.activity.ActivityResponse;
 import br.com.anthonycruz.planner.activity.ActivityService;
+import br.com.anthonycruz.planner.link.Link;
 import br.com.anthonycruz.planner.link.LinkDTO;
 import br.com.anthonycruz.planner.link.LinkRequest;
 import br.com.anthonycruz.planner.link.LinkResponse;
@@ -187,13 +188,16 @@ public class TripController {
     }
 
     @PostMapping("/{id}/links")
-    public ResponseEntity<LinkResponse> registerLink(@PathVariable UUID id, @RequestBody LinkRequest request) {
-        Optional<Trip> trip = this.service.findById(id);
-        if (trip.isPresent()) {
-            Trip rawTrip = trip.get();
+    public ResponseEntity<LinkDTO> registerLink(@PathVariable UUID id, @RequestBody LinkRequest request) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
 
-            LinkResponse response = this.linkService.registerLink(request, rawTrip);
-            return ResponseEntity.ok(response);
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
+
+            Link link = this.linkService.registerLink(request, trip);
+            LinkDTO linkDTO = new LinkDTO(link.getId(), link.getTitle(), link.getUrl());
+
+            return ResponseEntity.ok(linkDTO);
         }
         return ResponseEntity.notFound().build();
     }

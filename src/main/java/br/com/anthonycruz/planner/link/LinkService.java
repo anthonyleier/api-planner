@@ -12,10 +12,10 @@ public class LinkService {
     @Autowired
     LinkRepository repository;
 
-    public LinkResponse registerLink(LinkRequest request, Trip trip) {
+    public Link registerLink(LinkRequest request, Trip trip) {
         Link newLink = new Link(request.title(), request.url(), trip);
         Link savedLink = this.repository.save(newLink);
-        return new LinkResponse(savedLink.getId());
+        return savedLink;
     }
 
     public List<LinkDTO> getAllLinksFromTrip(UUID id) {

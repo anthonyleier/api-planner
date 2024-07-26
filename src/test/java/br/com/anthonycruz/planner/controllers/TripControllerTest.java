@@ -23,6 +23,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 import br.com.anthonycruz.planner.activity.ActivityDTO;
 import br.com.anthonycruz.planner.activity.ActivityRequest;
+import br.com.anthonycruz.planner.link.LinkDTO;
+import br.com.anthonycruz.planner.link.LinkRequest;
 import br.com.anthonycruz.planner.participant.ParticipantDTO;
 import br.com.anthonycruz.planner.participant.ParticipantRequest;
 import br.com.anthonycruz.planner.trip.TripDTO;
@@ -261,46 +263,44 @@ public class TripControllerTest {
         assertEquals("2025-12-17T08:00", activityDTO.occursAt().toString());
     }
 
-    // @Test
-    // @Order(9)
-    // public void testRegisterLink() {
-    // String title = "Booking";
-    // String url = "https://booking.com";
-    // LinkRequest request = new LinkRequest(title, url);
+    @Test
+    @Order(9)
+    public void testRegisterLink() {
+        LinkRequest request = new LinkRequest("Booking", "https://booking.com");
 
-    // Response response = RestAssured
-    // .given()
-    // .baseUri("http://localhost:8888")
-    // .basePath("/trips/" + tripID + "/links")
-    // .body(request)
-    // .contentType("application/json")
-    // .when()
-    // .post();
-    // LinkDTO linkDTO = response.as(LinkDTO.class);
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/trips/" + tripID + "/links")
+                .body(request)
+                .contentType("application/json")
+                .when()
+                .post();
+        LinkDTO linkDTO = response.as(LinkDTO.class);
 
-    // assertEquals(200, response.statusCode());
-    // assertNotNull(linkDTO.id());
-    // assertEquals(title, linkDTO.title());
-    // assertEquals(url, linkDTO.url());
-    // }
+        assertEquals(200, response.statusCode());
+        assertNotNull(linkDTO.id());
+        assertEquals("Booking", linkDTO.title());
+        assertEquals("https://booking.com", linkDTO.url());
+    }
 
-    // @Test
-    // @Order(10)
-    // public void testGetAllLinks() {
-    // Response response = RestAssured
-    // .given()
-    // .baseUri("http://localhost:8888/")
-    // .basePath("/trips/" + tripID + "/links")
-    // .when()
-    // .get();
+    @Test
+    @Order(10)
+    public void testGetAllLinks() {
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888/")
+                .basePath("/trips/" + tripID + "/links")
+                .when()
+                .get();
 
-    // List<LinkDTO> links = response.as(new TypeRef<List<LinkDTO>>() {
-    // });
-    // LinkDTO linkDTO = links.getFirst();
+        List<LinkDTO> links = response.as(new TypeRef<List<LinkDTO>>() {
+        });
+        LinkDTO linkDTO = links.getFirst();
 
-    // assertEquals(200, response.statusCode());
-    // assertNotNull(linkDTO.id());
-    // assertEquals("Booking", linkDTO.title());
-    // assertEquals("https://booking.com", linkDTO.url());
-    // }
+        assertEquals(200, response.statusCode());
+        assertNotNull(linkDTO.id());
+        assertEquals("Booking", linkDTO.title());
+        assertEquals("https://booking.com", linkDTO.url());
+    }
 }
