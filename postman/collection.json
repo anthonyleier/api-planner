@@ -197,17 +197,8 @@
 		{
 			"name": "Confirmar participante",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Wendel Mariano\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost/participants/{{participantID}}/confirm",
 					"protocol": "http",
@@ -218,6 +209,34 @@
 						"participants",
 						"{{participantID}}",
 						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar participante",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Wendel Mariano\",\r\n    \"email\": \"wendel.mariano2@alfatransportes.com.br\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/participants/{{participantID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"participants",
+						"{{participantID}}"
 					]
 				}
 			},
