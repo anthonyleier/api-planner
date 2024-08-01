@@ -309,21 +309,39 @@ public class TripControllerTest {
     @Test
     @Order(11)
     public void testConfirmParticipant() {
-        ParticipantRequest request = new ParticipantRequest("José da Silva", "jose.silva123@gmail.com");
         Response response = RestAssured
                 .given()
                 .baseUri("http://localhost:8888")
                 .basePath("/participants/" + participantID + "/confirm")
+                .when()
+                .get();
+        ParticipantDTO participantDTO = response.as(ParticipantDTO.class);
+
+        assertEquals(200, response.statusCode());
+        assertNotNull(participantDTO.id());
+        assertEquals("", participantDTO.name());
+        assertEquals("jose.silva123@gmail.com", participantDTO.email());
+        assertTrue(participantDTO.isConfirmed());
+    }
+
+    @Test
+    @Order(12)
+    public void testUpdateParticipant() {
+        ParticipantRequest request = new ParticipantRequest("José da Silva", "jose.silva456@gmail.com");
+        Response response = RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/participants/" + participantID)
                 .body(request)
                 .contentType("application/json")
                 .when()
-                .post();
+                .put();
         ParticipantDTO participantDTO = response.as(ParticipantDTO.class);
 
         assertEquals(200, response.statusCode());
         assertNotNull(participantDTO.id());
         assertEquals("José da Silva", participantDTO.name());
-        assertEquals("jose.silva123@gmail.com", participantDTO.email());
+        assertEquals("jose.silva456@gmail.com", participantDTO.email());
         assertTrue(participantDTO.isConfirmed());
     }
 }
