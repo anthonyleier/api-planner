@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:16-alpine
-    env_file: .env
+    env_file: .env.development
     ports: [5432:5432]
     networks: [spring-network]
     volumes: [data:/var/lib/postgresql/data]
@@ -9,7 +9,7 @@ services:
   app:
     build:
       context: .
-    env_file: .env
+    env_file: .env.development
     ports: [80:80]
     depends_on: [db]
     networks: [spring-network]
