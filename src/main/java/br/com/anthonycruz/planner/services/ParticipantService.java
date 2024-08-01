@@ -13,9 +13,11 @@ import br.com.anthonycruz.planner.repositories.ParticipantRepository;
 @Service
 public class ParticipantService {
     private final ParticipantRepository repository;
+    private final EmailService emailService;
 
-    private ParticipantService(ParticipantRepository repository) {
+    private ParticipantService(ParticipantRepository repository, EmailService emailService) {
         this.repository = repository;
+        this.emailService = emailService;
     }
 
     public List<Participant> registerParticipantsToTrip(List<String> participantsToInvite, Trip trip) {
@@ -30,9 +32,14 @@ public class ParticipantService {
     }
 
     public void triggerConfirmationEmailToParticipants(UUID tripId) {
+        List<Participant> participants = this.repository.findByTripId(tripId);
+        for (Participant participant : participants) {
+            emailService.sendConfirmationEmail(participant.getId(), participant.getEmail());
+        }
     }
 
-    public void triggerConfirmationEmailToParticipant(String email) {
+    public void triggerConfirmationEmailToParticipant(UUID participantID, String email) {
+        emailService.sendConfirmationEmail(participantID, email);
     }
 
     public List<ParticipantDTO> getAllParticipantsFromTrip(UUID id) {

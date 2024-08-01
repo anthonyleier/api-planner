@@ -152,7 +152,7 @@ public class TripController {
                     participant.isConfirmed());
 
             if (trip.isConfirmed())
-                this.participantService.triggerConfirmationEmailToParticipant(request.email());
+                this.participantService.triggerConfirmationEmailToParticipant(participant.getId(), participant.getEmail());
 
             return ResponseEntity.ok(participantDTO);
         }

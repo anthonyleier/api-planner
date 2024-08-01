@@ -16,3 +16,7 @@ spring:
       ddl-auto: none
     properties:
       dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  mail:
+    host: smtp.freesmtpservers.com
+    port: 25

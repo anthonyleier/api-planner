@@ -80,14 +80,6 @@ public class ParticipantServiceTest {
     }
 
     @Test
-    public void testTriggerConfirmationEmailToParticipants() {
-    }
-
-    @Test
-    public void testTriggerConfirmationEmailToParticipant() {
-    }
-
-    @Test
     public void testGetAllParticipantsFromTrip() {
         UUID testTripId = UUID.fromString("33f609fc-004b-4fc2-a635-71d2eae72060");
 
