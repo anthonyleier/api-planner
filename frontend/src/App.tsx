@@ -1,8 +1,9 @@
-import { MapPin, Calendar, ArrowRight, UserRoundPlus, Settings2 } from "lucide-react";
+import { MapPin, Calendar, ArrowRight, UserRoundPlus, Settings2, X } from "lucide-react";
 import { useState } from "react";
 
 export function App() {
     const [isGuestInputOpen, setIsGuestInputOpen] = useState(false);
+    const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
 
     function openGuestsInput() {
         setIsGuestInputOpen(true);
@@ -10,6 +11,14 @@ export function App() {
 
     function closeGuestsInput() {
         setIsGuestInputOpen(false);
+    }
+
+    function openGuestsModal() {
+        setIsGuestModalOpen(true);
+    }
+
+    function closeGuestsModal() {
+        setIsGuestModalOpen(false);
     }
 
     return (
@@ -49,10 +58,10 @@ export function App() {
 
                     {isGuestInputOpen && (
                         <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-xl gap-3">
-                            <div className="flex items-center gap-2 flex-1">
+                            <button type="button" onClick={openGuestsModal} className="flex items-center gap-2 flex-1 text-left">
                                 <UserRoundPlus className="size-5 text-zinc-400" />
-                                <input type="text" placeholder="Quem estará na viagem?" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
-                            </div>
+                                <span className="text-zinc-400 text-lg flex-1">Quem estará na viagem?</span>
+                            </button>
 
                             <button className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400">
                                 Confirmar viagem
@@ -74,6 +83,18 @@ export function App() {
                     .
                 </p>
             </div>
+            {isGuestModalOpen && (
+                <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+                    <div className="w-[640px] rounded-xl py-5 px-5 bg-zinc-900">
+                        <div className="flex items-center justify-between">
+                            <h2>Selecionar convidados</h2>
+                            <button>
+                                <X className="size-5 text-zinc-400" onClick={closeGuestsModal} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
