@@ -1,4 +1,4 @@
-import { Calendar, MapPin, Plus, Settings2 } from "lucide-react";
+import { Calendar, CircleCheck, Link2, MapPin, Plus, Settings2 } from "lucide-react";
 
 export function TripDetailsPage() {
   return (
@@ -24,7 +24,8 @@ export function TripDetailsPage() {
         </div>
       </div>
 
-      <main className="flex gap-16">
+      <main className="flex gap-16 px-4">
+        {/* Parte Esquerda */}
         <div className="flex-1 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-semibold">Atividades</h2>
@@ -42,9 +43,73 @@ export function TripDetailsPage() {
               </div>
               <p className="text-zinc-500 text-sm">Nenhuma atividade cadastrada nessa data.</p>
             </div>
+
+            <div className="space-y-2.5">
+              <div className="flex gap-2 items-baseline">
+                <span className="text-xl text-zinc-300 font-semibold">Dia 18</span>
+                <span className="text-xs text-zinc-500">Domingo</span>
+              </div>
+              <div className="space-y-2.5">
+                <div className="px-4 py-2.5 bg-zinc-900 rounded-xl flex items-center gap-3">
+                  <CircleCheck className="size-5 text-lime-300" />
+                  <span className="text-zinc-100">Academia em grupo</span>
+                  <span className="text-zinc-400 text-sm ml-auto">08:00h</span>
+                </div>
+              </div>
+              <div className="space-y-2.5">
+                <div className="px-4 py-2.5 bg-zinc-900 rounded-xl flex items-center gap-3">
+                  <CircleCheck className="size-5 text-lime-300" />
+                  <span className="text-zinc-100">Academia em grupo</span>
+                  <span className="text-zinc-400 text-sm ml-auto">08:00h</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="w-80"></div>
+
+        {/* Parte Direita */}
+        <div className="w-80 space-y-6">
+          {/* Links Importantes */}
+          <div className="space-y-6">
+            <h2 className="font-semibold text-xl">Links Importantes</h2>
+
+            {/* Lista de links */}
+            <div className="space-y-5">
+              {/* Link */}
+              <div className="flex items-center justify-between gap-4">
+                <div className="space-y-1.5">
+                  <span className="block font-medium text-zinc-100">Reserva do AirBnB</span>
+                  <a href="#" className="block text-sm text-zinc-400 hover:text-zinc-200 truncate">
+                    https://www.airbnb.com.br/rooms/12832819371289371298371298312739182739187391287
+                  </a>
+                </div>
+                <Link2 className="text-zinc-400 size-5 shrink-0" />
+              </div>
+
+              {/* Link */}
+              <div className="flex items-center justify-between gap-4">
+                <div className="space-y-1.5">
+                  <span className="block font-medium text-zinc-100">Reserva do AirBnB</span>
+                  <a href="#" className="block text-sm text-zinc-400 hover:text-zinc-200 truncate">
+                    https://www.airbnb.com.br/rooms/12832819371289371298371298312739182739187391287
+                  </a>
+                </div>
+                <Link2 className="text-zinc-400 size-5 shrink-0" />
+              </div>
+            </div>
+
+            <button className="w-full justify-center bg-zinc-800 text-zinc-300 rounded-lg px-5 h-11 font-medium flex items-center gap-2 hover:bg-zinc-700">
+              <Plus className="size-5" />
+              Cadastrar novo link
+            </button>
+          </div>
+
+          {/* Separador */}
+          <div className="w-full h-px bg-zinc-800" />
+
+          {/* Participantes */}
+          <div></div>
+        </div>
       </main>
     </div>
   );
