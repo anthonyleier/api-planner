@@ -2,8 +2,8 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InviteGuestsModal } from "./invite-guests-modal";
 import { ConfirmTripModal } from "./confirm-trip-modal";
-import { GuestInput } from "./guest-input";
 import { DestinationAndDateStep } from "./steps/destination-and-date-step";
+import { InviteGuestsStep } from "./steps/invite-guests-step";
 
 export function CreateTripPage() {
   const navigate = useNavigate();
@@ -78,8 +78,7 @@ export function CreateTripPage() {
 
         <div className="space-y-4">
           <DestinationAndDateStep isGuestInputOpen={isGuestInputOpen} closeGuestsInput={closeGuestsInput} openGuestsInput={openGuestsInput} />
-
-          {isGuestInputOpen && <GuestInput openGuestsModal={openGuestsModal} emailsToInvite={emailsToInvite} openConfirmTripModal={openConfirmTripModal} />}
+          {isGuestInputOpen && <InviteGuestsStep openGuestsModal={openGuestsModal} emailsToInvite={emailsToInvite} openConfirmTripModal={openConfirmTripModal} />}
         </div>
 
         <p className="text-sm text-zinc-500">
