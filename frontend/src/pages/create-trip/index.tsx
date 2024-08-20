@@ -72,11 +72,6 @@ export function CreateTripPage() {
 
   async function createTrip(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(destination);
-    console.log(eventStartAndEndDates);
-    console.log(emailsToInvite);
-    console.log(ownerEmail);
-    console.log(ownerName);
 
     if (!destination) return;
     if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) return;
@@ -92,8 +87,8 @@ export function CreateTripPage() {
       owner_email: ownerEmail,
     });
 
-    const { tripID } = response.data;
-    navigate(`/trips/${tripID}`);
+    const { id } = response.data;
+    navigate(`/trips/${id}`);
   }
 
   return (
