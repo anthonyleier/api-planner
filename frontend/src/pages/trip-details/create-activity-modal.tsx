@@ -20,7 +20,7 @@ export function CreateActivityModal({ closeCreateActivityModal }: CreateActivity
 
     await api.post(`/trips/${tripID}/activities`, { title, occurs_at });
 
-    closeCreateActivityModal();
+    window.document.location.reload();
   }
 
   return (
