@@ -16,7 +16,7 @@ export function Guests() {
   const [participants, setParticipants] = useState<Participant[]>([]);
 
   useEffect(() => {
-    api.get(`http://localhost/trips/${tripID}/participants`).then((response) => setParticipants(response.data));
+    api.get(`/trips/${tripID}/participants`).then((response) => setParticipants(response.data));
   }, [tripID]);
 
   return (
