@@ -6,6 +6,7 @@ import { Guests } from "./guests";
 import { Activities } from "./activities";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 import { Button } from "../../components/button";
+import { TripStatus } from "./trip-status";
 
 export function TripDetailsPage() {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false);
@@ -37,6 +38,8 @@ export function TripDetailsPage() {
 
         {/* Right */}
         <div className="w-80 space-y-6">
+          <TripStatus />
+          <div className="w-full h-px bg-zinc-800" />
           <ImportantLinks />
           <div className="w-full h-px bg-zinc-800" />
           <Guests />
