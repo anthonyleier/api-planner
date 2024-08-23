@@ -127,7 +127,16 @@ export function CreateTripPage() {
         <InviteGuestsModal addNewEmailToInvite={addNewEmailToInvite} removeEmailFromInvites={removeEmailFromInvites} closeGuestsModal={closeGuestsModal} emailsToInvite={emailsToInvite} />
       )}
 
-      {isConfirmTripModalOpen && <ConfirmTripModal closeConfirmTripModal={closeConfirmTripModal} createTrip={createTrip} setOwnerName={setOwnerName} setOwnerEmail={setOwnerEmail} />}
+      {isConfirmTripModalOpen && (
+        <ConfirmTripModal
+          closeConfirmTripModal={closeConfirmTripModal}
+          createTrip={createTrip}
+          setOwnerName={setOwnerName}
+          setOwnerEmail={setOwnerEmail}
+          destination={destination}
+          eventStartAndEndDates={eventStartAndEndDates}
+        />
+      )}
     </div>
   );
 }

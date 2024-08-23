@@ -1,15 +1,27 @@
 import { User, X } from "lucide-react";
 import { FormEvent } from "react";
 import { Button } from "../../components/button";
+import { DateRange } from "react-day-picker";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface ConfirmTripModalProps {
   closeConfirmTripModal: () => void;
   createTrip: (event: FormEvent<HTMLFormElement>) => void;
   setOwnerName: (name: string) => void;
   setOwnerEmail: (email: string) => void;
+  destination: string;
+  eventStartAndEndDates: DateRange | undefined;
 }
 
-export function ConfirmTripModal({ closeConfirmTripModal, createTrip, setOwnerName, setOwnerEmail }: ConfirmTripModalProps) {
+export function ConfirmTripModal({ closeConfirmTripModal, createTrip, setOwnerName, setOwnerEmail, destination, eventStartAndEndDates }: ConfirmTripModalProps) {
+  const displayedDate =
+    eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to
+      ? format(eventStartAndEndDates.from, "d' de 'LLLL", { locale: ptBR })
+          .concat(" até ")
+          .concat(format(eventStartAndEndDates.to, "d' de 'LLLL", { locale: ptBR }))
+      : "Quando?";
+
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
       <div className="w-[640px] rounded-xl py-5 px-5 bg-zinc-900 space-y-5">
@@ -21,8 +33,8 @@ export function ConfirmTripModal({ closeConfirmTripModal, createTrip, setOwnerNa
             </button>
           </div>
           <p className="text-sm text-zinc-400">
-            Para concluir a criação da viagem para <span className="font-semibold text-zinc-100">Florianópolis, Brasil</span> nas datas de{" "}
-            <span className="font-semibold text-zinc-100">16 a 27 de agosto de 2024</span> preencha seus dados abaixo:
+            Para concluir a criação da viagem para <span className="font-semibold text-zinc-100">{destination}</span> nas datas de <span className="font-semibold text-zinc-100">{displayedDate}</span>{" "}
+            preencha seus dados abaixo:
           </p>
         </div>
 
