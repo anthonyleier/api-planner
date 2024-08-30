@@ -6,13 +6,19 @@ services:
     networks: [spring-network]
     volumes: [data:/var/lib/postgresql/data]
 
-  app:
+  backend:
     build:
       context: .
     env_file: .env.development
-    ports: [80:80]
+    ports: [8080:8080]
     depends_on: [db]
     networks: [spring-network]
+
+  frontend:
+    build:
+      context: frontend
+    ports: [80:80]
+    depends_on: [backend]
 
 networks:
   spring-network:
