@@ -6,9 +6,10 @@ import { useParams } from "react-router-dom";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
+  onActivityCreated: () => void;
 }
 
-export function CreateActivityModal({ closeCreateActivityModal }: CreateActivityModalProps) {
+export function CreateActivityModal({ closeCreateActivityModal, onActivityCreated }: CreateActivityModalProps) {
   const { tripID } = useParams();
 
   async function createActivity(event: FormEvent<HTMLFormElement>) {
@@ -20,7 +21,8 @@ export function CreateActivityModal({ closeCreateActivityModal }: CreateActivity
 
     await api.post(`/trips/${tripID}/activities`, { title, occurs_at });
 
-    window.document.location.reload();
+    closeCreateActivityModal();
+    onActivityCreated();
   }
 
   return (

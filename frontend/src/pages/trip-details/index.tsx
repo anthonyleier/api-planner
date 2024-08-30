@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CreateActivityModal } from "./create-activity-modal";
 import { ImportantLinks } from "./important-links";
 import { Guests } from "./guests";
@@ -7,8 +7,18 @@ import { Activities } from "./activities";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 import { Button } from "../../components/button";
 import { TripStatus } from "./trip-status";
+import { useParams } from "react-router-dom";
+import { api } from "../../lib/axios";
+
+interface Activity {
+  id: string;
+  title: string;
+  occursAt: string;
+}
 
 export function TripDetailsPage() {
+  const { tripID } = useParams();
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false);
 
   function openCreateActivityModal() {
@@ -18,6 +28,18 @@ export function TripDetailsPage() {
   function closeCreateActivityModal() {
     setIsCreateActivityModalOpen(false);
   }
+
+  const fetchActivities = useCallback(() => {
+    api.get(`http://localhost/trips/${tripID}/activities`).then((response) => setActivities(response.data));
+  }, [tripID]);
+
+  function handleActivityCreated() {
+    fetchActivities();
+  }
+
+  useEffect(() => {
+    fetchActivities();
+  }, [fetchActivities, tripID]);
 
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
@@ -33,7 +55,7 @@ export function TripDetailsPage() {
               Cadastrar atividade
             </Button>
           </div>
-          <Activities />
+          <Activities activities={activities} />
         </div>
 
         {/* Right */}
@@ -46,7 +68,7 @@ export function TripDetailsPage() {
         </div>
       </main>
 
-      {isCreateActivityModalOpen && <CreateActivityModal closeCreateActivityModal={closeCreateActivityModal} />}
+      {isCreateActivityModalOpen && <CreateActivityModal closeCreateActivityModal={closeCreateActivityModal} onActivityCreated={handleActivityCreated} />}
     </div>
   );
 }
