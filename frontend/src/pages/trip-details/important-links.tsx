@@ -3,6 +3,7 @@ import { Button } from "../../components/button";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
+import { NewLinkModal } from "./new-link-modal";
 
 interface Link {
   id: string;
@@ -13,6 +14,15 @@ interface Link {
 export function ImportantLinks() {
   const { tripID } = useParams();
   const [links, setLinks] = useState<Link[]>([]);
+  const [isNewLinkModalOpen, setIsNewLinkModalOpen] = useState(false);
+
+  function openNewLinkModal() {
+    setIsNewLinkModalOpen(true);
+  }
+
+  function closeNewLinkModal() {
+    setIsNewLinkModalOpen(false);
+  }
 
   useEffect(() => {
     api.get(`/trips/${tripID}/links`).then((response) => setLinks(response.data));
@@ -36,10 +46,12 @@ export function ImportantLinks() {
         ))}
       </div>
 
-      <Button variant="secondary" size="full">
+      <Button onClick={openNewLinkModal} variant="secondary" size="full">
         <Plus className="size-5" />
         Cadastrar novo link
       </Button>
+
+      {isNewLinkModalOpen && <NewLinkModal closeNewLinkModal={closeNewLinkModal} />}
     </div>
   );
 }
