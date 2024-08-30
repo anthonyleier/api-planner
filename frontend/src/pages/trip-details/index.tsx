@@ -30,7 +30,7 @@ export function TripDetailsPage() {
   }
 
   const fetchActivities = useCallback(() => {
-    api.get(`http://localhost/trips/${tripID}/activities`).then((response) => setActivities(response.data));
+    api.get(`/trips/${tripID}/activities`).then((response) => setActivities(response.data));
   }, [tripID]);
 
   function handleActivityCreated() {
