@@ -6,9 +6,10 @@ import { useParams } from "react-router-dom";
 
 interface NewLinkModalProps {
   closeNewLinkModal: () => void;
+  onNewLink: () => void;
 }
 
-export function NewLinkModal({ closeNewLinkModal }: NewLinkModalProps) {
+export function NewLinkModal({ closeNewLinkModal, onNewLink }: NewLinkModalProps) {
   const { tripID } = useParams();
 
   async function createLink(event: FormEvent<HTMLFormElement>) {
@@ -20,7 +21,8 @@ export function NewLinkModal({ closeNewLinkModal }: NewLinkModalProps) {
 
     await api.post(`/trips/${tripID}/links`, { title, url });
 
-    window.document.location.reload();
+    closeNewLinkModal();
+    onNewLink();
   }
 
   return (

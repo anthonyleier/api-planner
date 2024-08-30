@@ -1,6 +1,6 @@
 import { CircleX, Link2, Plus } from "lucide-react";
 import { Button } from "../../components/button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
 import { NewLinkModal } from "./new-link-modal";
@@ -25,14 +25,22 @@ export function ImportantLinks() {
     setIsNewLinkModalOpen(false);
   }
 
+  const fetchLinks = useCallback(() => {
+    api.get(`/trips/${tripID}/links`).then((response) => setLinks(response.data));
+  }, [tripID]);
+
+  function handleNewLink() {
+    fetchLinks();
+  }
+
   function deleteLink(link: Link) {
     console.log(`/links/${link.id}`);
     // api.delete(`/links/${link.id}`);
   }
 
   useEffect(() => {
-    api.get(`/trips/${tripID}/links`).then((response) => setLinks(response.data));
-  }, [tripID]);
+    fetchLinks();
+  }, [fetchLinks, tripID]);
 
   return (
     <div className="space-y-6">
@@ -59,7 +67,7 @@ export function ImportantLinks() {
         Cadastrar novo link
       </Button>
 
-      {isNewLinkModalOpen && <NewLinkModal closeNewLinkModal={closeNewLinkModal} />}
+      {isNewLinkModalOpen && <NewLinkModal closeNewLinkModal={closeNewLinkModal} onNewLink={handleNewLink} />}
     </div>
   );
 }
