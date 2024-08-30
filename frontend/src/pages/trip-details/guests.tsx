@@ -1,7 +1,7 @@
 import { CheckCircle2, CircleDashed, UserPlus } from "lucide-react";
 import { Button } from "../../components/button";
 import { api } from "../../lib/axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { InviteParticipantModal } from "./invite-participant-modal";
 
@@ -25,9 +25,17 @@ export function Guests() {
     setIsInviteParticipantModalOpen(false);
   }
 
-  useEffect(() => {
+  const fetchParticipants = useCallback(() => {
     api.get(`/trips/${tripID}/participants`).then((response) => setParticipants(response.data));
   }, [tripID]);
+
+  function handleParticipantInvited() {
+    fetchParticipants();
+  }
+
+  useEffect(() => {
+    fetchParticipants();
+  }, [fetchParticipants, tripID]);
 
   return (
     <div className="space-y-6">
@@ -51,7 +59,7 @@ export function Guests() {
         Convidar participante
       </Button>
 
-      {isInviteParticipantModalOpen && <InviteParticipantModal closeInviteParticipantModal={closeInviteParticipantModal} />}
+      {isInviteParticipantModalOpen && <InviteParticipantModal closeInviteParticipantModal={closeInviteParticipantModal} onParticipantInvited={handleParticipantInvited} />}
     </div>
   );
 }

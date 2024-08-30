@@ -6,9 +6,10 @@ import { useParams } from "react-router-dom";
 
 interface InviteParticipantModalProps {
   closeInviteParticipantModal: () => void;
+  onParticipantInvited: () => void;
 }
 
-export function InviteParticipantModal({ closeInviteParticipantModal }: InviteParticipantModalProps) {
+export function InviteParticipantModal({ closeInviteParticipantModal, onParticipantInvited }: InviteParticipantModalProps) {
   const { tripID } = useParams();
 
   async function inviteParticipant(event: FormEvent<HTMLFormElement>) {
@@ -19,7 +20,8 @@ export function InviteParticipantModal({ closeInviteParticipantModal }: InvitePa
 
     await api.post(`/trips/${tripID}/invite`, { email });
 
-    window.document.location.reload();
+    closeInviteParticipantModal();
+    onParticipantInvited();
   }
 
   return (
