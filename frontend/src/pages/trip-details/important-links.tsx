@@ -1,4 +1,4 @@
-import { Link2, Plus } from "lucide-react";
+import { CircleX, Link2, Plus } from "lucide-react";
 import { Button } from "../../components/button";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -15,6 +15,7 @@ export function ImportantLinks() {
   const { tripID } = useParams();
   const [links, setLinks] = useState<Link[]>([]);
   const [isNewLinkModalOpen, setIsNewLinkModalOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   function openNewLinkModal() {
     setIsNewLinkModalOpen(true);
@@ -22,6 +23,11 @@ export function ImportantLinks() {
 
   function closeNewLinkModal() {
     setIsNewLinkModalOpen(false);
+  }
+
+  function deleteLink(link: Link) {
+    console.log(`/links/${link.id}`);
+    // api.delete(`/links/${link.id}`);
   }
 
   useEffect(() => {
@@ -33,7 +39,7 @@ export function ImportantLinks() {
       <h2 className="font-semibold text-xl">Links Importantes</h2>
 
       <div className="space-y-5">
-        {links.map((link) => (
+        {links.map((link, index) => (
           <div key={link.id} className="flex items-center justify-between gap-4">
             <div className="space-y-1.5">
               <span className="block font-medium text-zinc-100">{link.title}</span>
@@ -41,7 +47,9 @@ export function ImportantLinks() {
                 {link.url}
               </a>
             </div>
-            <Link2 className="text-zinc-400 size-5 shrink-0" />
+            <div onMouseEnter={() => setHoveredIndex(index)} onMouseLeave={() => setHoveredIndex(null)}>
+              {hoveredIndex === index ? <CircleX onClick={() => deleteLink(link)} className="text-red-400 size-5 shrink-0" /> : <Link2 className="text-zinc-400 size-5 shrink-0" />}
+            </div>
           </div>
         ))}
       </div>
