@@ -101,4 +101,22 @@ public class PhotoService {
                 .map(photo -> new PhotoDTO(photo.getId(), photo.getFilename()))
                 .toList();
     }
+
+    public void delete(String filename, Trip trip) {
+        try {
+            String filepath = trip.getId().toString() + "/" + filename;
+            Path path = this.fileStorageLocation.resolve(filepath).normalize();
+
+            if (Files.exists(path))
+                Files.delete(path);
+            else
+                throw new PhotoNotFoundException("File not found " + filename);
+
+            Photo photo = this.repository.findByFilenameAndTrip(filename, trip).orElseThrow(() -> new PhotoNotFoundException("Photo not found in database " + filename));
+            this.repository.delete(photo);
+
+        } catch (Exception e) {
+            throw new PhotoNotFoundException("File not found " + filename, e);
+        }
+    }
 }

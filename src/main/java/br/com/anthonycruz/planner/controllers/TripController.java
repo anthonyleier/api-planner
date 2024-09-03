@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -270,5 +271,18 @@ public class TripController {
     public ResponseEntity<List<PhotoDTO>> getAllPhotos(@PathVariable UUID id) {
         List<PhotoDTO> photos = this.photoService.getAllPhotosFromTrip(id);
         return ResponseEntity.ok(photos);
+    }
+
+    @DeleteMapping("/{id}/photos/{filename:.+}")
+    public ResponseEntity<Resource> deletePhoto(@PathVariable UUID id, @PathVariable String filename) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
+
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
+            this.photoService.delete(filename, trip);
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }
