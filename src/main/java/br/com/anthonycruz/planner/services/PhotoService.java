@@ -69,11 +69,14 @@ public class PhotoService {
     }
 
     public Photo upload(MultipartFile file, Trip trip) {
+        if (this.repository.existsByFilename(file.getOriginalFilename())) throw new FileStorageException("Already exists a file with that name: " + file.getOriginalFilename());
+
         String filename = this.generateFilename(file, trip);
         this.store(file, filename);
 
         Photo newPhoto = new Photo(file.getOriginalFilename(), trip);
         Photo savedPhoto = this.repository.save(newPhoto);
+
         return savedPhoto;
     }
 

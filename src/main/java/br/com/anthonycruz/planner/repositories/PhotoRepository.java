@@ -9,4 +9,6 @@ import br.com.anthonycruz.planner.models.Photo;
 
 public interface PhotoRepository extends JpaRepository<Photo, UUID> {
     List<Photo> findByTripId(UUID id);
+
+    boolean existsByFilename(String originalFilename);
 }
