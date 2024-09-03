@@ -1,5 +1,6 @@
 package br.com.anthonycruz.planner.controllers;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -7,7 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +41,7 @@ import br.com.anthonycruz.planner.services.LinkService;
 import br.com.anthonycruz.planner.services.ParticipantService;
 import br.com.anthonycruz.planner.services.PhotoService;
 import br.com.anthonycruz.planner.services.TripService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/trips")
@@ -232,6 +237,32 @@ public class TripController {
 
             return ResponseEntity.ok(photoDTOs);
         }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/photos/{filename:.+}")
+    public ResponseEntity<Resource> downloadPhoto(@PathVariable UUID id, @PathVariable String filename, HttpServletRequest request) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
+
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
+
+            String contentType = "";
+            Resource resource = this.photoService.load(filename, trip);
+
+            try {
+                contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+                if (contentType.isBlank()) contentType = "application/octet-stream";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        }
+
         return ResponseEntity.notFound().build();
     }
 }

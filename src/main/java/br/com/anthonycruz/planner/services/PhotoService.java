@@ -5,12 +5,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.anthonycruz.planner.config.FileStorageConfig;
 import br.com.anthonycruz.planner.exceptions.FileStorageException;
+import br.com.anthonycruz.planner.exceptions.PhotoNotFoundException;
 import br.com.anthonycruz.planner.models.Photo;
 import br.com.anthonycruz.planner.models.Trip;
 import br.com.anthonycruz.planner.repositories.PhotoRepository;
@@ -69,5 +72,20 @@ public class PhotoService {
         Photo newPhoto = new Photo(file.getOriginalFilename(), trip);
         Photo savedPhoto = this.repository.save(newPhoto);
         return savedPhoto;
+    }
+
+    public Resource load(String filename, Trip trip) {
+        try {
+            String filepath = trip.getId().toString() + "/" + filename;
+            Path path = this.fileStorageLocation.resolve(filepath).normalize();
+            Resource resource = new UrlResource(path.toUri());
+
+            if (resource.exists())
+                return resource;
+            else
+                throw new PhotoNotFoundException("File not found " + filename);
+        } catch (Exception e) {
+            throw new PhotoNotFoundException("File not found " + filename, e);
+        }
     }
 }
