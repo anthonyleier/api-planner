@@ -4,6 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -12,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.anthonycruz.planner.config.FileStorageConfig;
+import br.com.anthonycruz.planner.dtos.PhotoDTO;
 import br.com.anthonycruz.planner.exceptions.FileStorageException;
 import br.com.anthonycruz.planner.exceptions.PhotoNotFoundException;
 import br.com.anthonycruz.planner.models.Photo;
@@ -87,5 +90,12 @@ public class PhotoService {
         } catch (Exception e) {
             throw new PhotoNotFoundException("File not found " + filename, e);
         }
+    }
+
+    public List<PhotoDTO> getAllPhotosFromTrip(UUID id) {
+        return this.repository.findByTripId(id)
+                .stream()
+                .map(photo -> new PhotoDTO(photo.getId(), photo.getFilename()))
+                .toList();
     }
 }

@@ -265,4 +265,10 @@ public class TripController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/{id}/photos")
+    public ResponseEntity<List<PhotoDTO>> getAllPhotos(@PathVariable UUID id) {
+        List<PhotoDTO> photos = this.photoService.getAllPhotosFromTrip(id);
+        return ResponseEntity.ok(photos);
+    }
 }
