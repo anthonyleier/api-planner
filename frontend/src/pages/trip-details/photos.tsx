@@ -4,7 +4,8 @@ import { api } from "../../lib/axios";
 import { AddPhotoModal } from "./add-photo-modal";
 
 interface Photo {
-  url: string;
+  id: string;
+  filename: string;
 }
 
 export function Photos() {
@@ -21,7 +22,7 @@ export function Photos() {
   }
 
   const fetchPhotos = useCallback(() => {
-    // api.get(`/trips/${tripID}/photos`).then((response) => setPhotos(response.data));
+    api.get(`/trips/${tripID}/photos`).then((response) => setPhotos(response.data));
   }, [tripID]);
 
   function handleAddPhoto() {
@@ -39,14 +40,12 @@ export function Photos() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        <img src="https://picsum.photos/200" className="w-full h-auto object-cover rounded-lg" />
-        <img src="https://picsum.photos/200" className="w-full h-auto object-cover rounded-lg" />
-        <img src="https://picsum.photos/200" className="w-full h-auto object-cover rounded-lg" />
-        <img src="https://picsum.photos/200" className="w-full h-auto object-cover rounded-lg" />
-        <img src="https://picsum.photos/200" className="w-full h-auto object-cover rounded-lg" />
-        <img src="https://picsum.photos/200" className="w-full h-auto object-cover rounded-lg" />
-        <img src="https://picsum.photos/200" className="w-full h-auto object-cover rounded-lg" />
-        <button onClick={openAddPhotoModal} className="flex items-center justify-center w-full h-auto bg-zinc-800 hover:bg-zinc-700 cursor-pointer rounded-lg">
+        {photos.map((photo) => (
+          <div key={photo.id} className="w-full h-48 overflow-hidden">
+            <img src={`http://localhost:8080/trips/${tripID}/photos/${photo.filename}`} className="w-full h-full object-cover rounded-lg" />
+          </div>
+        ))}
+        <button onClick={openAddPhotoModal} className="flex items-center justify-center w-full h-48 bg-zinc-800 hover:bg-zinc-700 cursor-pointer rounded-lg">
           <span className="text-4xl text-zinc-300">+</span>
         </button>
       </div>
