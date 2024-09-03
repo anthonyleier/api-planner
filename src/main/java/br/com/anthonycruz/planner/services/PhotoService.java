@@ -1,11 +1,14 @@
 package br.com.anthonycruz.planner.services;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -17,18 +20,13 @@ import br.com.anthonycruz.planner.config.FileStorageConfig;
 import br.com.anthonycruz.planner.dtos.PhotoDTO;
 import br.com.anthonycruz.planner.exceptions.FileStorageException;
 import br.com.anthonycruz.planner.exceptions.PhotoNotFoundException;
-import br.com.anthonycruz.planner.models.Photo;
 import br.com.anthonycruz.planner.models.Trip;
-import br.com.anthonycruz.planner.repositories.PhotoRepository;
 
 @Service
 public class PhotoService {
-    private final PhotoRepository repository;
     private final Path fileStorageLocation;
 
-    public PhotoService(PhotoRepository repository, FileStorageConfig fileStorageConfig) {
-        this.repository = repository;
-
+    public PhotoService(FileStorageConfig fileStorageConfig) {
         Path path = Paths.get(fileStorageConfig.getUploadFolder()).toAbsolutePath().normalize();
         this.fileStorageLocation = path;
 
@@ -68,16 +66,14 @@ public class PhotoService {
         }
     }
 
-    public Photo upload(MultipartFile file, Trip trip) {
-        if (this.repository.existsByFilename(file.getOriginalFilename())) throw new FileStorageException("Already exists a file with that name: " + file.getOriginalFilename());
-
+    public String upload(MultipartFile file, Trip trip) {
         String filename = this.generateFilename(file, trip);
+        Path path = this.fileStorageLocation.resolve(filename).normalize();
+
+        if (Files.exists(path)) throw new FileStorageException("Already exists a file with that name: " + file.getOriginalFilename());
         this.store(file, filename);
 
-        Photo newPhoto = new Photo(file.getOriginalFilename(), trip);
-        Photo savedPhoto = this.repository.save(newPhoto);
-
-        return savedPhoto;
+        return file.getOriginalFilename();
     }
 
     public Resource load(String filename, Trip trip) {
@@ -95,11 +91,18 @@ public class PhotoService {
         }
     }
 
-    public List<PhotoDTO> getAllPhotosFromTrip(UUID id) {
-        return this.repository.findByTripId(id)
-                .stream()
-                .map(photo -> new PhotoDTO(photo.getId(), photo.getFilename()))
-                .toList();
+    public List<PhotoDTO> getAllPhotosFromTrip(UUID tripId) {
+        List<PhotoDTO> photos = new ArrayList<>();
+        Path uploadFolder = this.fileStorageLocation.resolve(tripId.toString());
+
+        if (Files.isDirectory(uploadFolder)) {
+            try (Stream<Path> filStream = Files.list(uploadFolder)) {
+                filStream.filter(Files::isRegularFile).forEach(path -> photos.add(new PhotoDTO(path.getFileName().toString())));
+            } catch (IOException e) {
+                throw new FileStorageException("Error reading files from directory " + tripId, e);
+            }
+        }
+        return photos;
     }
 
     public void delete(String filename, Trip trip) {
@@ -111,9 +114,6 @@ public class PhotoService {
                 Files.delete(path);
             else
                 throw new PhotoNotFoundException("File not found " + filename);
-
-            Photo photo = this.repository.findByFilenameAndTrip(filename, trip).orElseThrow(() -> new PhotoNotFoundException("Photo not found in database " + filename));
-            this.repository.delete(photo);
 
         } catch (Exception e) {
             throw new PhotoNotFoundException("File not found " + filename, e);

@@ -30,7 +30,6 @@ import br.com.anthonycruz.planner.dtos.TripDTO;
 import br.com.anthonycruz.planner.models.Activity;
 import br.com.anthonycruz.planner.models.Link;
 import br.com.anthonycruz.planner.models.Participant;
-import br.com.anthonycruz.planner.models.Photo;
 import br.com.anthonycruz.planner.models.Trip;
 import br.com.anthonycruz.planner.requests.ActivityRequest;
 import br.com.anthonycruz.planner.requests.LinkRequest;
@@ -228,8 +227,8 @@ public class TripController {
         if (optionalTrip.isPresent()) {
             Trip trip = optionalTrip.get();
 
-            Photo photo = this.photoService.upload(file, trip);
-            PhotoDTO photoDTO = new PhotoDTO(photo.getId(), photo.getFilename());
+            String filename = this.photoService.upload(file, trip);
+            PhotoDTO photoDTO = new PhotoDTO(filename);
 
             return ResponseEntity.ok(photoDTO);
         }
