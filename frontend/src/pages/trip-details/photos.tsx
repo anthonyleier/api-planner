@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
 import { AddPhotoModal } from "./add-photo-modal";
+import { X } from "lucide-react";
 
 interface Photo {
   id: string;
@@ -13,6 +14,7 @@ export function Photos() {
   const { tripID } = useParams();
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [isAddPhotoModalOpen, setIsAddPhotoModalOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   function openAddPhotoModal() {
     setIsAddPhotoModalOpen(true);
@@ -30,6 +32,15 @@ export function Photos() {
     fetchPhotos();
   }
 
+  function handleDeletePhoto(filename: string) {
+    console.log(`Deletando ${filename} da viagem ${tripID}...`);
+    api.delete(`/trips/${tripID}/photos/${filename}`).then(() => {
+      setTimeout(() => {
+        fetchPhotos();
+      }, 500);
+    });
+  }
+
   useEffect(() => {
     fetchPhotos();
   }, [fetchPhotos, tripID]);
@@ -41,15 +52,19 @@ export function Photos() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {photos.map((photo) => {
+        {photos.map((photo, index) => {
           photo.url = `http://localhost:8080/trips/${tripID}/photos/${photo.filename}`;
           return (
-            <div key={photo.id} className="relative w-full h-48 overflow-hidden group">
+            <div key={photo.id} className="relative w-full h-48 overflow-hidden group" onMouseEnter={() => setHoveredIndex(index)} onMouseLeave={() => setHoveredIndex(null)}>
               <a href={photo.url} target="_blank">
                 <img src={photo.url} className="w-full h-full object-cover rounded-lg transition duration-300 ease-in-out group-hover:opacity-50" alt={`Photo ${photo.id}`} />
-
                 <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-30 rounded-lg"></div>
               </a>
+              {hoveredIndex === index && (
+                <button onClick={() => handleDeletePhoto(photo.filename)} className="absolute top-2 right-2 p-1">
+                  <X />
+                </button>
+              )}
             </div>
           );
         })}
