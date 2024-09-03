@@ -223,20 +223,16 @@ public class TripController {
     }
 
     @PostMapping("/{id}/photos")
-    public ResponseEntity<List<PhotoDTO>> uploadPhoto(@PathVariable UUID id, MultipartFile[] files) {
+    public ResponseEntity<PhotoDTO> uploadPhoto(@PathVariable UUID id, MultipartFile file) {
         Optional<Trip> optionalTrip = this.service.findById(id);
 
         if (optionalTrip.isPresent()) {
             Trip trip = optionalTrip.get();
-            List<PhotoDTO> photoDTOs = new ArrayList<>();
 
-            for (MultipartFile file : files) {
-                Photo photo = this.photoService.upload(file, trip);
-                PhotoDTO photoDTO = new PhotoDTO(photo.getId(), photo.getFilename());
-                photoDTOs.add(photoDTO);
-            }
+            Photo photo = this.photoService.upload(file, trip);
+            PhotoDTO photoDTO = new PhotoDTO(photo.getId(), photo.getFilename());
 
-            return ResponseEntity.ok(photoDTOs);
+            return ResponseEntity.ok(photoDTO);
         }
         return ResponseEntity.notFound().build();
     }
