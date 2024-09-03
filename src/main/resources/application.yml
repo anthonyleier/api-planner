@@ -1,6 +1,9 @@
 server:
   port: 8080
 
+files:
+  upload-folder: /trips-photos
+
 spring:
   application:
     name: planner

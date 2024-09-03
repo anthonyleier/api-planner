@@ -2,6 +2,7 @@ package br.com.anthonycruz.planner.controllers;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,14 +16,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.anthonycruz.planner.dtos.ActivityDTO;
 import br.com.anthonycruz.planner.dtos.LinkDTO;
 import br.com.anthonycruz.planner.dtos.ParticipantDTO;
+import br.com.anthonycruz.planner.dtos.PhotoDTO;
 import br.com.anthonycruz.planner.dtos.TripDTO;
 import br.com.anthonycruz.planner.models.Activity;
 import br.com.anthonycruz.planner.models.Link;
 import br.com.anthonycruz.planner.models.Participant;
+import br.com.anthonycruz.planner.models.Photo;
 import br.com.anthonycruz.planner.models.Trip;
 import br.com.anthonycruz.planner.requests.ActivityRequest;
 import br.com.anthonycruz.planner.requests.LinkRequest;
@@ -31,6 +35,7 @@ import br.com.anthonycruz.planner.requests.TripRequest;
 import br.com.anthonycruz.planner.services.ActivityService;
 import br.com.anthonycruz.planner.services.LinkService;
 import br.com.anthonycruz.planner.services.ParticipantService;
+import br.com.anthonycruz.planner.services.PhotoService;
 import br.com.anthonycruz.planner.services.TripService;
 
 @RestController
@@ -40,12 +45,14 @@ public class TripController {
     private final ParticipantService participantService;
     private final ActivityService activityService;
     private final LinkService linkService;
+    private final PhotoService photoService;
 
-    public TripController(TripService service, ParticipantService participantService, ActivityService activityService, LinkService linkService) {
+    public TripController(TripService service, ParticipantService participantService, ActivityService activityService, LinkService linkService, PhotoService photoService) {
         this.service = service;
         this.participantService = participantService;
         this.activityService = activityService;
         this.linkService = linkService;
+        this.photoService = photoService;
     }
 
     @PostMapping
@@ -207,5 +214,24 @@ public class TripController {
     public ResponseEntity<List<LinkDTO>> getAllLinks(@PathVariable UUID id) {
         List<LinkDTO> links = this.linkService.getAllLinksFromTrip(id);
         return ResponseEntity.ok(links);
+    }
+
+    @PostMapping("/{id}/photos")
+    public ResponseEntity<List<PhotoDTO>> uploadPhoto(@PathVariable UUID id, MultipartFile[] files) {
+        Optional<Trip> optionalTrip = this.service.findById(id);
+
+        if (optionalTrip.isPresent()) {
+            Trip trip = optionalTrip.get();
+            List<PhotoDTO> photoDTOs = new ArrayList<>();
+
+            for (MultipartFile file : files) {
+                Photo photo = this.photoService.upload(file, trip);
+                PhotoDTO photoDTO = new PhotoDTO(photo.getId(), photo.getFilename());
+                photoDTOs.add(photoDTO);
+            }
+
+            return ResponseEntity.ok(photoDTOs);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

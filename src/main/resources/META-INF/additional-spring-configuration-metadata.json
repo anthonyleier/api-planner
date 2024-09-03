@@ -1,0 +1,9 @@
+{
+    "properties": [
+        {
+            "name": "files.upload-folder",
+            "type": "java.lang.String",
+            "description": "Folder for storage files"
+        }
+    ]
+}
