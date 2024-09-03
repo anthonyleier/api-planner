@@ -33,11 +33,23 @@ public class PhotoService {
         }
     }
 
+    public void createFolder(String folderName) {
+        try {
+            Files.createDirectories(this.fileStorageLocation.resolve(folderName));
+        } catch (Exception e) {
+            throw new FileStorageException("Could not create the subdirectory", e);
+        }
+    }
+
     public String generateFilename(MultipartFile file, Trip trip) {
+        createFolder(trip.getId().toString());
+
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null) throw new FileStorageException("Sorry, filename cannot be null");
-        String filename = trip.getId() + StringUtils.cleanPath(originalFilename);
+
+        String filename = trip.getId().toString() + "/" + StringUtils.cleanPath(originalFilename);
         if (filename.contains("..")) throw new FileStorageException("Sorry, filename contains invalid path sequence " + filename);
+
         return filename;
     }
 
