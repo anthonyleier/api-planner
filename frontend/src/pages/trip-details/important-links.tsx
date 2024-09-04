@@ -34,8 +34,11 @@ export function ImportantLinks() {
   }
 
   function deleteLink(link: Link) {
-    console.log(`/links/${link.id}`);
-    // api.delete(`/links/${link.id}`);
+    api.delete(`/links/${link.id}`).then(() => {
+      setTimeout(() => {
+        fetchLinks();
+      }, 500);
+    });
   }
 
   useEffect(() => {

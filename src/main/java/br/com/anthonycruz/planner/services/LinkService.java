@@ -1,6 +1,7 @@
 package br.com.anthonycruz.planner.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -30,5 +31,13 @@ public class LinkService {
                 .stream()
                 .map(link -> new LinkDTO(link.getId(), link.getTitle(), link.getUrl()))
                 .toList();
+    }
+
+    public Optional<Link> findById(UUID id) {
+        return this.repository.findById(id);
+    }
+
+    public void delete(Link link) {
+        this.repository.delete(link);
     }
 }
