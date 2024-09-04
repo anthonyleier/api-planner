@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -35,6 +39,7 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
@@ -343,5 +348,73 @@ public class TripControllerTest {
         assertEquals("José da Silva", participantDTO.name());
         assertEquals("jose.silva456@gmail.com", participantDTO.email());
         assertTrue(participantDTO.isConfirmed());
+    }
+
+    @Test
+    @Order(13)
+    public void testUploadPhoto() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "some image".getBytes());
+        RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/trips/{id}/photos")
+                .contentType(ContentType.MULTIPART)
+                .multiPart("file", file.getOriginalFilename(), file.getBytes())
+                .pathParam("id", tripID)
+                .when()
+                .post()
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("filename", Matchers.equalTo("test.jpg"));
+    }
+
+    @Test
+    @Order(14)
+    void testDownloadPhoto() {
+        String filename = "test.jpg";
+        RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/trips/{id}/photos/{filename}")
+                .pathParam("id", tripID)
+                .pathParam("filename", filename)
+                .when()
+                .get()
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .contentType("image/jpeg")
+                .header("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+    }
+
+    @Test
+    @Order(15)
+    void testGetAllPhotos() {
+        RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/trips/{id}/photos")
+                .pathParam("id", tripID)
+                .when()
+                .get()
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .contentType(ContentType.JSON)
+                .body("size()", Matchers.greaterThanOrEqualTo(1));
+    }
+
+    @Test
+    @Order(16)
+    void testDeletePhoto() {
+        String filename = "test.jpg";
+        RestAssured
+                .given()
+                .baseUri("http://localhost:8888")
+                .basePath("/trips/{id}/photos/{filename}")
+                .pathParam("id", tripID)
+                .pathParam("filename", filename)
+                .when()
+                .delete()
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }
