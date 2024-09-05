@@ -11,6 +11,7 @@ interface Photo {
 }
 
 export function Photos() {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { tripID } = useParams();
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [isAddPhotoModalOpen, setIsAddPhotoModalOpen] = useState(false);
@@ -53,7 +54,7 @@ export function Photos() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {photos.map((photo, index) => {
-          photo.url = `http://localhost:8080/trips/${tripID}/photos/${photo.filename}`;
+          photo.url = `${apiUrl}/trips/${tripID}/photos/${photo.filename}`;
           return (
             <div key={photo.id} className="relative w-full h-48 overflow-hidden group" onMouseEnter={() => setHoveredIndex(index)} onMouseLeave={() => setHoveredIndex(null)}>
               <a href={photo.url} target="_blank">
